@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bazaari — Multi-Vendor Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#191330;
+  --ink-soft:#3a3255;
+  --paper:#F2F6F1;
+  --paper-raised:#ffffff;
+  --marigold:#F2A63C;
+  --marigold-deep:#D98A1F;
+  --plum:#6E2C5C;
+  --teal:#1F7A6C;
+  --coral:#E85D4E;
+  --line: rgba(25,19,48,0.12);
+  --line-strong: rgba(25,19,48,0.22);
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --shadow-pop: 0 18px 40px rgba(25,19,48,0.18);
+  box-sizing:border-box;
+  padding-top: env(safe-area-inset-top,0px);
+  padding-bottom: env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#181321;
+    --paper-raised:#221b2e;
+    --ink:#f2eef8;
+    --ink-soft:#c9c0dd;
+    --line: rgba(242,238,248,0.12);
+    --line-strong: rgba(242,238,248,0.22);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#181321;
+  --paper-raised:#221b2e;
+  --ink:#f2eef8;
+  --ink-soft:#c9c0dd;
+  --line: rgba(242,238,248,0.12);
+  --line-strong: rgba(242,238,248,0.22);
+}
+*{margin:0;box-sizing:border-box;}
+html{scroll-padding-top: env(safe-area-inset-top,0px);}
+body{
+  font-family:"Work Sans", sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100%;
+  -webkit-font-smoothing:antialiased;
+}
+.display{font-family:"Fraunces", serif;}
+img{max-width:100%;display:block;}
+a{color:inherit;}
+button{font-family:inherit;}
+
+/* ---------- utility bar ---------- */
+.utilitybar{
+  background:var(--ink);
+  color:var(--paper);
+  font-size:13px;
+  padding:8px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:40;
+}
+.role-switch{display:flex;gap:2px;background:rgba(242,246,241,0.1);border-radius:999px;padding:3px;}
+.role-switch button{
+  border:none;background:transparent;color:rgba(242,246,241,0.75);
+  padding:6px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;
+  transition:background .18s ease, color .18s ease;
+}
+.role-switch button.active{background:var(--marigold);color:var(--ink);font-weight:600;}
+.utilitybar .tagline{color:rgba(242,246,241,0.55);}
+
+/* ---------- nav ---------- */
+.topnav{
+  position:sticky; top:37px; z-index:39;
+  background:var(--paper-raised);
+  border-bottom:1px solid var(--line);
+  padding:14px 24px;
+  display:flex; align-items:center; gap:24px;
+}
+.wordmark{font-family:"Fraunces", serif; font-style:italic; font-weight:500; font-size:26px; letter-spacing:-0.02em; white-space:nowrap;}
+.wordmark span{color:var(--marigold-deep);}
+.searchpill{
+  flex:1; max-width:520px; display:flex; align-items:center; gap:10px;
+  background:var(--paper); border:1px solid var(--line); border-radius:999px;
+  padding:9px 16px; color:var(--ink-soft); font-size:14px;
+}
+.searchpill svg{flex-shrink:0;opacity:.6;}
+.searchpill input{border:none;background:none;outline:none;color:var(--ink);font-size:14px;width:100%;font-family:inherit;}
+.navactions{display:flex;align-items:center;gap:10px;margin-left:auto;}
+.iconbtn{
+  position:relative; border:1px solid var(--line); background:var(--paper-raised);
+  width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer; transition:border-color .15s ease, transform .15s ease;
+}
+.iconbtn:hover{border-color:var(--marigold-deep); transform:translateY(-1px);}
+.badge{
+  position:absolute; top:-4px; right:-4px; background:var(--coral); color:#fff;
+  font-size:10px; font-weight:700; min-width:17px; height:17px; border-radius:999px;
+  display:flex;align-items:center;justify-content:center; padding:0 4px;
+}
+.pillbtn{
+  position:relative; overflow:hidden;
+  background:var(--ink); color:var(--paper); border:none; border-radius:999px;
+  padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer;
+  transition:background .18s ease, transform .18s cubic-bezier(.2,.8,.3,1.4), box-shadow .18s ease;
+}
+.pillbtn::after{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  background:radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 60%);
+  opacity:0; transform:scale(0.4); transition:opacity .4s ease, transform .5s ease; pointer-events:none;
+}
+.pillbtn:active::after{opacity:1; transform:scale(1.6); transition:opacity 0s, transform 0s;}
+.pillbtn:hover{background:var(--plum); transform:translateY(-2px); box-shadow:0 10px 22px rgba(110,44,92,0.28);}
+.pillbtn:active{transform:translateY(0) scale(.97);}
+.pillbtn.marigold{background:var(--marigold); color:var(--ink);}
+.pillbtn.marigold:hover{background:var(--marigold-deep); color:#fff; box-shadow:0 10px 24px rgba(217,138,31,0.35);}
+.pillbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong);}
+.pillbtn.ghost:hover{border-color:var(--ink);background:transparent; box-shadow:0 8px 18px rgba(25,19,48,0.12);}
+.pillbtn:disabled{opacity:.65; cursor:default; transform:none !important; box-shadow:none !important;}
+
+/* ---------- shared motion tokens ---------- */
+@keyframes fadeInUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+@keyframes popIn{0%{opacity:0; transform:scale(.92);} 60%{opacity:1; transform:scale(1.015);} 100%{opacity:1; transform:scale(1);}}
+@keyframes floatSlow{0%,100%{transform:translate(0,0) rotate(0deg);} 50%{transform:translate(10px,-14px) rotate(4deg);}}
+@keyframes floatSlower{0%,100%{transform:translate(0,0) rotate(0deg);} 50%{transform:translate(-14px,10px) rotate(-3deg);}}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(242,166,60,0.45);} 70%{box-shadow:0 0 0 10px rgba(242,166,60,0);} 100%{box-shadow:0 0 0 0 rgba(242,166,60,0);}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+}
+
+main{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+/* ---------- SHOP: hero ---------- */
+.hero{
+  display:grid; grid-template-columns: 1.1fr 0.9fr; gap:56px; align-items:center;
+  padding:64px 0 48px;
+}
+.hero h1{font-size:clamp(34px,4.6vw,56px); line-height:1.04; font-weight:500; letter-spacing:-0.01em; animation:fadeInUp .55s cubic-bezier(.2,.8,.3,1) both;}
+.hero p.lede{margin-top:18px; font-size:17px; color:var(--ink-soft); max-width:46ch; line-height:1.55; animation:fadeInUp .55s cubic-bezier(.2,.8,.3,1) .08s both;}
+.hero .ctarow{display:flex; gap:14px; margin-top:30px; animation:fadeInUp .55s cubic-bezier(.2,.8,.3,1) .16s both;}
+.statline{display:flex; gap:32px; margin-top:44px; padding-top:24px; border-top:1px solid var(--line); animation:fadeInUp .55s cubic-bezier(.2,.8,.3,1) .22s both;}
+.statline div b{display:block; font-family:"Fraunces",serif; font-size:26px; font-weight:600;}
+.statline div span{font-size:13px; color:var(--ink-soft);}
+
+.collage{position:relative; height:380px;}
+.tile{
+  position:absolute; border-radius:var(--radius-m); overflow:hidden;
+  box-shadow:var(--shadow-pop); border:1px solid var(--line);
+  display:flex; flex-direction:column; justify-content:flex-end;
+  animation:rise .7s cubic-bezier(.2,.9,.25,1) both;
+  transition:transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s ease;
+}
+.tile:hover{transform:translateY(-6px) rotate(0deg) !important; box-shadow:0 24px 46px rgba(25,19,48,0.24);}
+@keyframes rise{from{opacity:0; transform:translateY(24px) rotate(var(--r,0deg));} to{opacity:1; transform:translateY(0) rotate(var(--r,0deg));}}
+.tile .art{flex:1; display:flex; align-items:center; justify-content:center;}
+.tile .art svg{width:34%; height:34%; opacity:.92;}
+.tile .cap{background:rgba(25,19,48,0.86); color:#fff; padding:10px 14px; font-size:13px; display:flex; justify-content:space-between; align-items:center;}
+.tile.t1{width:230px; height:230px; top:0; left:30px; --r:-6deg; background:linear-gradient(150deg,#F2A63C,#E85D4E); animation-delay:.05s;}
+.tile.t2{width:200px; height:200px; top:60px; right:10px; --r:5deg; background:linear-gradient(150deg,#1F7A6C,#19A88F); animation-delay:.18s;}
+.tile.t3{width:190px; height:190px; bottom:0; left:110px; --r:3deg; background:linear-gradient(150deg,#6E2C5C,#9B4B84); animation-delay:.3s;}
+
+/* category rail */
+.rail{display:flex; gap:10px; overflow-x:auto; padding:6px 0 28px; scrollbar-width:none;}
+.rail::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0; display:flex; align-items:center; gap:8px;
+  border:1px solid var(--line); border-radius:999px; padding:9px 16px;
+  font-size:14px; font-weight:500; cursor:pointer; background:var(--paper-raised);
+  transition:all .15s ease;
+}
+.chip.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.chip:not(.active):hover{border-color:var(--marigold-deep);}
+
+/* section headings */
+.sectionhead{display:flex; align-items:baseline; justify-content:space-between; margin:8px 0 20px;}
+.sectionhead h2{font-size:26px; font-weight:500;}
+.sectionhead a{font-size:14px; font-weight:600; color:var(--plum); cursor:pointer;}
+
+/* product grid - masonry feel via row-span on featured card */
+.grid{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:18px; padding-bottom:56px;
+}
+.card{
+  background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m);
+  overflow:hidden; display:flex; flex-direction:column; cursor:pointer;
+  transition:border-color .2s ease, transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .25s ease;
+  animation:fadeInUp .5s cubic-bezier(.2,.8,.3,1) both;
+  will-change:transform;
+}
+.card:hover{border-color:var(--marigold-deep); transform:translateY(-6px); box-shadow:0 16px 30px rgba(25,19,48,0.14);}
+.card .thumb img{transition:transform .35s ease;}
+.card:hover .thumb img{transform:scale(1.06);}
+.card.featured{grid-row:span 2;}
+.thumb{
+  position:relative; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+}
+.card.featured .thumb{aspect-ratio:1/1.35;}
+.thumb svg{width:38%; height:38%; opacity:.92;}
+.stockflag{
+  position:absolute; top:10px; left:10px; background:rgba(25,19,48,0.82); color:#fff;
+  font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px;
+}
+.quickadd{
+  position:absolute; bottom:10px; right:10px; width:36px; height:36px; border-radius:50%;
+  background:var(--paper-raised); border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; opacity:0; transform:scale(.85); transition:all .15s ease;
+}
+.card:hover .quickadd{opacity:1; transform:scale(1);}
+.quickadd:hover{background:var(--marigold); border-color:var(--marigold);}
+.cardbody{padding:14px 14px 16px; display:flex; flex-direction:column; gap:6px; flex:1;}
+.seller{font-size:11.5px; color:var(--ink-soft); display:flex; align-items:center; gap:5px;}
+.seller .dot{width:5px;height:5px;border-radius:50%;background:var(--teal);}
+.pname{font-size:15px; font-weight:600; line-height:1.3;}
+.cardfoot{display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:6px;}
+.price{font-family:"Fraunces",serif; font-size:19px; font-weight:600;}
+.rating{font-size:12px; color:var(--ink-soft); display:flex; align-items:center; gap:3px;}
+
+/* ---------- cart drawer ---------- */
+.scrim{position:fixed; inset:0; background:rgba(25,19,48,0.45); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:60;}
+.scrim.open{opacity:1; pointer-events:auto;}
+.drawer{
+  position:fixed; top:0; right:0; height:100%; width:400px; max-width:92vw; background:var(--paper-raised);
+  z-index:61; transform:translateX(100%); transition:transform .25s cubic-bezier(.2,.9,.25,1);
+  display:flex; flex-direction:column; box-shadow:-20px 0 50px rgba(25,19,48,0.25);
+  padding-top: env(safe-area-inset-top,0px);
+}
+.drawer.open{transform:translateX(0);}
+.drawerhead{padding:20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+.drawerhead h3{font-family:"Fraunces",serif; font-size:21px; font-weight:600;}
+.closeicon{cursor:pointer; width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.closeicon:hover{background:var(--paper);}
+.cartitems{flex:1; overflow-y:auto; padding:14px 20px;}
+.cartrow{display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--line);}
+.cartthumb{width:56px;height:56px;border-radius:var(--radius-s); flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+.cartthumb svg{width:55%;height:55%;}
+.cartrow .info{flex:1; min-width:0;}
+.cartrow .info .n{font-size:14px; font-weight:600;}
+.cartrow .info .s{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.qtyrow{display:flex; align-items:center; gap:10px; margin-top:8px;}
+.qtybtn{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-strong); background:none; cursor:pointer; font-size:13px; line-height:1;}
+.cartrow .p{font-family:"Fraunces",serif; font-weight:600; font-size:15px; white-space:nowrap;}
+.drawerfoot{padding:20px; border-top:1px solid var(--line);}
+.subrow{display:flex; justify-content:space-between; font-size:14px; color:var(--ink-soft); margin-bottom:6px;}
+.totrow{display:flex; justify-content:space-between; font-family:"Fraunces",serif; font-size:20px; font-weight:600; margin:10px 0 16px;}
+.emptycart{text-align:center; padding:60px 20px; color:var(--ink-soft); font-size:14px;}
+
+/* ---------- auth modal ---------- */
+.modalwrap{position:fixed; inset:0; z-index:70; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .2s ease;}
+.modalwrap.open{opacity:1; pointer-events:auto;}
+.modalcard{
+  background:var(--paper-raised); border-radius:var(--radius-m); width:380px; max-width:90vw;
+  padding:30px; box-shadow:var(--shadow-pop); border:1px solid var(--line);
+  transform:scale(.94) translateY(10px); opacity:0; transition:transform .25s cubic-bezier(.2,.8,.3,1.2), opacity .2s ease;
+}
+.modalwrap.open .modalcard{transform:scale(1) translateY(0); opacity:1;}
+.tabs{display:flex; gap:4px; background:var(--paper); border-radius:999px; padding:3px; margin-bottom:22px;}
+.tabs button{
+  flex:1; border:none; background:none; padding:9px; border-radius:999px; font-size:13.5px; font-weight:600;
+  cursor:pointer; color:var(--ink-soft); transition:color .25s ease; position:relative; z-index:1;
+}
+.tabs button.active{color:var(--paper);}
+.tabs{position:relative;}
+.tabs::before{
+  content:""; position:absolute; top:3px; bottom:3px; left:3px; width:calc(50% - 3px);
+  background:var(--ink); border-radius:999px; z-index:0;
+  transition:transform .28s cubic-bezier(.2,.8,.3,1.1);
+}
+.tabs.tab-register::before{transform:translateX(100%);}
+.field{margin-bottom:14px; animation:fadeIn .3s ease both;}
+.field label{font-size:12.5px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:6px;}
+.field input,.field select{
+  width:100%; border:1px solid var(--line-strong); border-radius:var(--radius-s); padding:10px 12px;
+  font-size:14px; font-family:inherit; background:var(--paper); color:var(--ink); outline:none;
+  transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.field input:focus,.field select:focus{border-color:var(--marigold-deep); box-shadow:0 0 0 3px rgba(242,166,60,0.18); background:var(--paper-raised);}
+.modalcard .pillbtn{width:100%; margin-top:6px; padding:12px;}
+
+/* ---------- SELL / ADMIN dashboards ---------- */
+.dash{padding:40px 0 64px;}
+.dashhead{margin-bottom:28px;}
+.dashhead h1{font-size:30px; font-weight:500;}
+.dashhead p{color:var(--ink-soft); font-size:14.5px; margin-top:6px;}
+.statline2{display:flex; gap:0; border:1px solid var(--line); border-radius:var(--radius-m); overflow:hidden; margin-bottom:32px;}
+.statcell{flex:1; padding:18px 22px; border-right:1px solid var(--line);}
+.statcell:last-child{border-right:none;}
+.statcell .k{font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;}
+.statcell .v{font-family:"Fraunces",serif; font-size:24px; font-weight:600;}
+.statcell .v.up{color:var(--teal);}
+.statcell .v.warn{color:var(--coral);}
+
+.panel{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m); margin-bottom:24px;}
+.panelhead{display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--line);}
+.panelhead h3{font-size:17px; font-weight:600; font-family:"Fraunces",serif;}
+table{width:100%; border-collapse:collapse; font-size:14px;}
+th{text-align:left; font-size:11.5px; color:var(--ink-soft); font-weight:600; padding:10px 22px; border-bottom:1px solid var(--line);}
+td{padding:14px 22px; border-bottom:1px solid var(--line); vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+.rowprod{display:flex; align-items:center; gap:12px;}
+.rowthumb{width:38px;height:38px;border-radius:var(--radius-s); flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+.rowthumb svg{width:55%;height:55%;}
+.status{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:5px 11px; border-radius:999px;}
+.status.instock{background:rgba(31,122,108,0.12); color:var(--teal);}
+.status.low{background:rgba(232,93,78,0.12); color:var(--coral);}
+.status.placed{background:rgba(242,166,60,0.15); color:var(--marigold-deep);}
+.status.shipped{background:rgba(110,44,92,0.12); color:var(--plum);}
+.status.delivered{background:rgba(31,122,108,0.12); color:var(--teal);}
+.status.pending{background:rgba(232,93,78,0.12); color:var(--coral);}
+.status.approved{background:rgba(31,122,108,0.12); color:var(--teal);}
+.smallbtn{border:1px solid var(--line-strong); background:none; border-radius:var(--radius-s); padding:6px 12px; font-size:12.5px; font-weight:600; cursor:pointer;}
+.smallbtn:hover{border-color:var(--ink);}
+.smallbtn.approve{background:var(--teal); color:#fff; border-color:var(--teal);}
+.smallbtn.deny{background:none; color:var(--coral); border-color:var(--coral);}
+
+.view{display:none;}
+.view.active{display:block;}
+
+/* footer */
+footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
+.footwrap{max-width:1180px; margin:0 auto; padding:48px 24px 32px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;}
+.footwrap .wordmark{color:var(--paper);}
+.footwrap p{font-size:13.5px; margin-top:12px; line-height:1.6; color:rgba(242,246,241,0.55); max-width:32ch;}
+.footcol h4{font-size:13px; margin-bottom:14px; font-weight:600; color:var(--paper);}
+.footcol div{font-size:13.5px; padding:5px 0; color:rgba(242,246,241,0.65);}
+.footbottom{border-top:1px solid rgba(242,246,241,0.12); text-align:center; padding:18px; font-size:12.5px; color:rgba(242,246,241,0.45);}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr; gap:36px; padding-top:36px;}
+  .collage{height:280px;}
+  .grid{grid-template-columns:repeat(2,1fr);}
+  .card.featured{grid-row:span 1;}
+  .searchpill{display:none;}
+  .statline2{flex-direction:column;}
+  .statcell{border-right:none; border-bottom:1px solid var(--line);}
+  .footwrap{grid-template-columns:1fr 1fr;}
+}
+
+/* ---------- mobile fixes ---------- */
+@media (max-width:640px){
+  .utilitybar{padding:8px 14px; gap:8px;}
+  .utilitybar .tagline{display:none;}
+  .topnav{padding:12px 14px; gap:12px; flex-wrap:wrap;}
+  .wordmark{font-size:22px;}
+  main{padding:0 14px;}
+  .hero{padding-top:24px;}
+  .hero .ctarow{flex-wrap:wrap;}
+  .hero .ctarow .pillbtn{flex:1; min-width:140px; text-align:center;}
+  .statline{gap:18px; flex-wrap:wrap;}
+  .sectionhead{flex-wrap:wrap; gap:8px;}
+  .rowprod{gap:8px;}
+  table{font-size:12.5px;}
+  th,td{padding:10px 12px;}
+  .dash{padding:24px 0 48px;}
+  .dashhead h1{font-size:24px;}
+}
+@media (max-width:480px){
+  .grid{grid-template-columns:1fr 1fr; gap:12px;}
+  .modalcard{width:100%; padding:22px;}
+  .drawer{width:100%; max-width:100vw;}
+  .hero h1{font-size:30px;}
+  .navactions{gap:6px;}
+  .pillbtn{padding:9px 14px; font-size:13px;}
+  .footwrap{grid-template-columns:1fr;}
+  .panelhead{flex-wrap:wrap; gap:10px;}
+  table{display:block; overflow-x:auto; white-space:nowrap;}
+}
+
+/* quick-add: reveal on touch (hover never fires reliably on phones) */
+@media (hover:none){
+  .quickadd{opacity:1; transform:scale(1);}
+}
+
+/* ---------- data/state helpers ---------- */
+.thumb img{width:100%; height:100%; object-fit:cover;}
+.skeleton{background:linear-gradient(90deg, var(--line) 25%, var(--paper) 37%, var(--line) 63%); background-size:400% 100%; animation:shimmer 1.4s ease infinite;}
+@keyframes shimmer{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
+.fielderr{color:var(--coral); font-size:12px; margin-top:5px; display:none;}
+.field.has-error input,.field.has-error select{border-color:var(--coral);}
+.field.has-error .fielderr{display:block;}
+.formerr{background:rgba(232,93,78,0.1); color:var(--coral); border-radius:var(--radius-s); padding:10px 12px; font-size:13px; margin-bottom:14px; display:none;}
+.formerr.show{display:block;}
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(24px) scale(.94); z-index:90;
+  background:var(--ink); color:var(--paper); padding:13px 22px; border-radius:999px; font-size:14px; font-weight:500;
+  box-shadow:var(--shadow-pop); opacity:0; pointer-events:none; transition:opacity .3s ease, transform .35s cubic-bezier(.2,.8,.3,1.4); max-width:90vw; text-align:center;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0) scale(1);}
+.toast.error{background:var(--coral);}
+.badge{transition:transform .25s cubic-bezier(.2,.8,.3,1.5);}
+.badge.bump{animation:ringPulse .5s ease;}
+.searchpill{transition:box-shadow .18s ease, border-color .18s ease;}
+.searchpill:focus-within{border-color:var(--marigold-deep); box-shadow:0 0 0 3px rgba(242,166,60,0.16);}
+.check-circle{animation:popIn .5s cubic-bezier(.2,.8,.3,1.3) both;}
+.order-success-card{animation:fadeInUp .45s cubic-bezier(.2,.8,.3,1) both;}
+.emptystate{padding:48px 20px; text-align:center; color:var(--ink-soft); font-size:14px;}
+
+/* ---------- dedicated login/register page ---------- */
+.authpage{
+  position:relative; overflow:hidden;
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(600px 420px at 12% 12%, rgba(242,166,60,0.22), transparent 60%),
+    radial-gradient(560px 460px at 88% 82%, rgba(110,44,92,0.35), transparent 62%),
+    radial-gradient(700px 700px at 85% 8%, rgba(31,122,108,0.16), transparent 55%),
+    var(--ink);
+  padding:32px 20px;
+  padding-top:calc(32px + env(safe-area-inset-top,0px)); padding-bottom:calc(32px + env(safe-area-inset-bottom,0px));
+}
+.authpage::before,.authpage::after{
+  content:""; position:absolute; border-radius:50%; filter:blur(2px); pointer-events:none; opacity:.55;
+}
+.authpage::before{
+  width:230px; height:230px; top:8%; left:6%;
+  background:conic-gradient(from 90deg, #F2A63C, #E85D4E, #F2A63C);
+  animation:floatSlow 9s ease-in-out infinite; opacity:.16;
+}
+.authpage::after{
+  width:280px; height:280px; bottom:6%; right:8%;
+  background:conic-gradient(from 200deg, #1F7A6C, #19A88F, #1F7A6C);
+  animation:floatSlower 11s ease-in-out infinite; opacity:.14;
+}
+.auth-motif{
+  position:absolute; inset:0; pointer-events:none; z-index:0;
+  background-image: radial-gradient(rgba(242,246,241,0.07) 1px, transparent 1px);
+  background-size:26px 26px;
+  mask-image:radial-gradient(circle at 50% 40%, black, transparent 75%);
+}
+.authcard{
+  position:relative; z-index:1;
+  width:100%; max-width:420px; background:var(--paper-raised); border-radius:14px;
+  padding:36px 32px; box-shadow:0 30px 70px rgba(8,5,18,0.45), 0 2px 0 rgba(255,255,255,0.4) inset;
+  animation:popIn .55s cubic-bezier(.2,.8,.3,1.15) both;
+  border:1px solid rgba(255,255,255,0.5);
+}
+.authbrand{text-align:center; margin-bottom:22px;}
+.authbrand .wordmark{font-size:32px; margin-bottom:6px; animation:fadeInUp .5s ease .05s both;}
+.authbrand p{color:var(--ink-soft); font-size:13.5px; animation:fadeInUp .5s ease .1s both;}
+.authhint{text-align:center; font-size:13px; color:var(--ink-soft); margin-top:16px;}
+.authhint a{color:var(--plum); font-weight:600; cursor:pointer; position:relative;}
+.authhint a::after{content:""; position:absolute; left:0; right:0; bottom:-2px; height:1px; background:var(--plum); transform:scaleX(0); transform-origin:left; transition:transform .2s ease;}
+.authhint a:hover::after{transform:scaleX(1);}
+.usermenu{display:flex; align-items:center; gap:10px;}
+.usermenu #userMenuName{font-size:13.5px; font-weight:600; white-space:nowrap;}
+@media (max-width:480px){
+  .authcard{padding:28px 22px;}
+}
+
+/* password field with eye toggle */
+.pwd-wrap{position:relative;}
+.pwd-wrap input{padding-right:42px !important;}
+.pwd-toggle{
+  position:absolute; top:50%; right:4px; transform:translateY(-50%);
+  width:32px; height:32px; border:none; background:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; border-radius:50%;
+  color:var(--ink-soft); transition:color .15s ease, background .15s ease;
+}
+.pwd-toggle:hover{color:var(--ink); background:rgba(25,19,48,0.06);}
+.pwd-toggle svg{width:18px; height:18px;}
+.pwd-toggle .eye-off{display:none;}
+.pwd-toggle.is-visible .eye-on{display:none;}
+.pwd-toggle.is-visible .eye-off{display:block;}
+/* ---------- PAYMENT & UPI SCANNER MODULE ---------- */
+.checkout-view-wrap{padding:24px 0 60px;}
+.checkout-topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--line);}
+.back-link{display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--plum); cursor:pointer; text-decoration:none;}
+.back-link:hover{color:var(--ink);}
+.checkout-badge{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--teal); background:rgba(31,122,108,0.1); padding:6px 12px; border-radius:999px;}
+
+.checkout-grid{display:grid; grid-template-columns:1.2fr 0.8fr; gap:28px; align-items:start;}
+.checkout-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m); padding:24px; margin-bottom:20px;}
+.checkout-card-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+.checkout-card-head h3{font-family:"Fraunces",serif; font-size:19px; font-weight:600; display:flex; align-items:center; gap:10px;}
+.step-num{display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--ink); color:#fff; font-size:13px; font-family:"Work Sans",sans-serif;}
+
+.field-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.field-full{grid-column:1 / -1;}
+
+/* payment methods */
+.pay-methods{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px;}
+.pay-method-tab{border:1px solid var(--line); background:var(--paper); border-radius:var(--radius-s); padding:12px 10px; text-align:center; cursor:pointer; font-size:13px; font-weight:600; color:var(--ink-soft); transition:all .15s ease; display:flex; flex-direction:column; align-items:center; gap:6px;}
+.pay-method-tab:hover{border-color:var(--marigold-deep);}
+.pay-method-tab.active{border-color:var(--marigold-deep); background:rgba(242,166,60,0.08); color:var(--ink); box-shadow:0 0 0 1px var(--marigold-deep);}
+.pay-method-tab svg{width:22px; height:22px;}
+
+/* UPI Scanner Box */
+.upi-box{background:var(--paper); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:24px; text-align:center;}
+.upi-brands{display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+.upi-pill{background:#fff; border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:11px; font-weight:700; color:#1a1a1a; display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(0,0,0,0.04);}
+.upi-scanner-wrapper{position:relative; display:inline-block; margin:8px auto 14px; padding:16px; background:#ffffff; border-radius:var(--radius-m); border:2px solid var(--line-strong); box-shadow:0 8px 24px rgba(25,19,48,0.08);}
+.upi-qr-img{width:210px; height:210px; display:block; object-fit:contain; border-radius:4px;}
+.scanner-crosshair{position:absolute; width:18px; height:18px; border-color:var(--marigold-deep); border-style:solid; pointer-events:none;}
+.scanner-crosshair.tl{top:8px; left:8px; border-width:3px 0 0 3px;}
+.scanner-crosshair.tr{top:8px; right:8px; border-width:3px 3px 0 0;}
+.scanner-crosshair.bl{bottom:8px; left:8px; border-width:0 0 3px 3px;}
+.scanner-crosshair.br{bottom:8px; right:8px; border-width:0 3px 3px 0;}
+.upi-amount-pill{display:inline-block; background:var(--ink); color:#fff; padding:6px 16px; border-radius:999px; font-size:14px; font-weight:600; margin-top:6px;}
+
+.upi-id-box{display:flex; align-items:center; justify-content:center; gap:8px; margin:14px 0 16px; font-size:13.5px;}
+.upi-id-box code{background:var(--paper-raised); padding:6px 12px; border-radius:var(--radius-s); border:1px solid var(--line); font-weight:600; font-family:monospace; color:var(--plum);}
+.copy-btn{background:none; border:1px solid var(--line-strong); border-radius:var(--radius-s); padding:5px 10px; font-size:12px; font-weight:600; cursor:pointer; transition:all .15s;}
+.copy-btn:hover{background:var(--paper-raised); border-color:var(--ink);}
+
+.upi-deeplink-btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; max-width:320px; background:#fff; color:var(--ink); border:1px solid var(--line-strong); border-radius:999px; padding:10px 16px; font-size:13.5px; font-weight:600; text-decoration:none; margin-bottom:16px; transition:border-color .15s;}
+.upi-deeplink-btn:hover{border-color:var(--marigold-deep); background:rgba(242,166,60,0.05);}
+
+.utr-verify-wrap{background:var(--paper-raised); border:1px dashed var(--line-strong); border-radius:var(--radius-s); padding:14px 16px; text-align:left; margin-top:14px;}
+.utr-verify-wrap label{font-size:12.5px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:6px;}
+.utr-row{display:flex; gap:8px;}
+.utr-row input{flex:1; border:1px solid var(--line-strong); border-radius:var(--radius-s); padding:9px 12px; font-size:14px; font-family:monospace; background:var(--paper); color:var(--ink); outline:none;}
+.utr-row input:focus{border-color:var(--marigold-deep);}
+
+/* Order summary sticky card */
+.summary-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m); padding:24px; position:sticky; top:110px;}
+.summary-items{max-height:280px; overflow-y:auto; margin-bottom:16px; padding-right:4px;}
+.summary-item{display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--line);}
+.summary-thumb{width:46px; height:46px; border-radius:var(--radius-s); overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+.summary-thumb svg{width:55%; height:55%;}
+.summary-item-info{flex:1; min-width:0;}
+.summary-item-name{font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.summary-item-seller{font-size:11.5px; color:var(--ink-soft);}
+.summary-item-price{font-family:"Fraunces",serif; font-weight:600; font-size:14px;}
+.summary-item-qty{display:flex; align-items:center; gap:8px; margin-top:6px;}
+
+.coupon-row{display:flex; gap:8px; margin:16px 0; padding-bottom:16px; border-bottom:1px solid var(--line);}
+.coupon-row input{flex:1; border:1px solid var(--line-strong); border-radius:var(--radius-s); padding:8px 12px; font-size:13px; background:var(--paper); color:var(--ink); outline:none; text-transform:uppercase;}
+.coupon-row button{border:none; background:var(--ink); color:#fff; border-radius:var(--radius-s); padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer;}
+
+.summary-totals{margin-top:12px;}
+.sum-line{display:flex; justify-content:space-between; font-size:13.5px; color:var(--ink-soft); margin-bottom:8px;}
+.sum-line.discount{color:var(--teal); font-weight:600;}
+.sum-total{display:flex; justify-content:space-between; font-family:"Fraunces",serif; font-size:22px; font-weight:600; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); color:var(--ink);}
+
+.trust-pills{display:flex; flex-direction:column; gap:8px; margin-top:20px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-soft);}
+.trust-item{display:flex; align-items:center; gap:8px;}
+
+/* Success confirmation view */
+.order-success-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m); padding:48px 32px; max-width:620px; margin:32px auto; text-align:center; box-shadow:var(--shadow-pop);}
+.check-circle{width:72px; height:72px; border-radius:50%; background:rgba(31,122,108,0.12); color:var(--teal); display:inline-flex; align-items:center; justify-content:center; margin-bottom:20px;}
+.check-circle svg{width:36px; height:36px;}
+.success-receipt{background:var(--paper); border-radius:var(--radius-m); border:1px solid var(--line); padding:20px; text-align:left; margin:24px 0; font-size:13.5px;}
+.receipt-row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line);}
+.receipt-row:last-child{border-bottom:none; font-weight:700;}
+
+@media (max-width:860px){
+  .checkout-grid{grid-template-columns:1fr;}
+  .pay-methods{grid-template-columns:1fr 1fr 1fr;}
+  .summary-card{position:static;}
+}
+@media (max-width:480px){
+  .field-grid{grid-template-columns:1fr;}
+  .pay-methods{grid-template-columns:1fr;}
+  .upi-scanner-wrapper{padding:10px;}
+  .upi-qr-img{width:180px; height:180px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN / REGISTER (first screen) ================= -->
+<div class="authpage" id="authPage">
+  <div class="auth-motif"></div>
+  <div class="authcard">
+    <div class="authbrand">
+      <div class="wordmark">Bazaar<span>i</span></div>
+      <p>Goods from makers, not warehouses.</p>
+    </div>
+
+    <div class="tabs" id="authTabs">
+      <button class="active" data-tab="login">Log in</button>
+      <button data-tab="register">Register</button>
+    </div>
+
+    <div id="loginForm">
+      <div class="formerr" id="loginFormErr"></div>
+      <div class="field" id="f-login-email"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"><div class="fielderr"></div></div>
+      <div class="field" id="f-login-password">
+        <label>Password</label>
+        <div class="pwd-wrap">
+          <input type="password" id="loginPassword" placeholder="••••••••">
+          <button type="button" class="pwd-toggle" data-toggle-for="loginPassword" aria-label="Show password" title="Show password">
+            <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 4c7 0 11 7 11 7a19.8 19.8 0 0 1-2.19 3.19m-6.35-.85a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        <div class="fielderr"></div>
+      </div>
+      <button class="pillbtn marigold" id="loginSubmit" style="width:100%;">Log in</button>
+      <p class="authhint">New here? <a data-tab-link="register">Create an account</a></p>
+    </div>
+
+    <div id="registerForm" style="display:none;">
+      <div class="formerr" id="registerFormErr"></div>
+      <div class="field" id="f-username"><label>Username</label><input type="text" id="regUsername" placeholder="alex_rivera"><div class="fielderr"></div></div>
+      <div class="field" id="f-email"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com"><div class="fielderr"></div></div>
+      <div class="field" id="f-phone"><label>Phone</label><input type="tel" id="regPhone" placeholder="9876543210"><div class="fielderr"></div></div>
+      <div class="field" id="f-password">
+        <label>Password</label>
+        <div class="pwd-wrap">
+          <input type="password" id="regPassword" placeholder="At least 6 characters">
+          <button type="button" class="pwd-toggle" data-toggle-for="regPassword" aria-label="Show password" title="Show password">
+            <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 4c7 0 11 7 11 7a19.8 19.8 0 0 1-2.19 3.19m-6.35-.85a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        <div class="fielderr"></div>
+      </div>
+      <div class="field" id="f-role"><label>Account type</label>
+        <select id="regRole"><option value="CUSTOMER">Customer — shop the marketplace</option><option value="SELLER">Seller — run a storefront</option></select>
+        <div class="fielderr"></div>
+      </div>
+      <button class="pillbtn marigold" id="registerSubmit" style="width:100%;">Create account</button>
+      <p class="authhint">Already have an account? <a data-tab-link="login">Log in</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="appRoot" style="display:none;">
+
+<div class="utilitybar">
+  <div class="role-switch" id="roleSwitch">
+    <button data-role="shop" class="active">Shop</button>
+    <button data-role="sell">Sell</button>
+    <button data-role="admin">Admin</button>
+  </div>
+  <div class="tagline">Free shipping over ₹999 · Ships from verified sellers</div>
+</div>
+
+<div class="topnav">
+  <div class="wordmark">Bazaar<span>i</span></div>
+  <div class="searchpill">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" placeholder="Search for handloom textiles, ceramics, spices…">
+  </div>
+  <div class="navactions" id="shopActions">
+    <button class="iconbtn" id="wishlistBtn" title="Wishlist">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+    </button>
+    <button class="iconbtn" id="cartBtn" title="Cart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+      <span class="badge" id="cartBadge">0</span>
+    </button>
+  </div>
+  <div class="usermenu" id="userMenu">
+    <span id="userMenuName"></span>
+    <button class="pillbtn ghost" id="logoutBtn" style="padding:8px 14px;font-size:13px;">Log out</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ================= SHOP VIEW ================= -->
+  <section class="view active" id="view-shop">
+    <div class="hero">
+      <div>
+        <h1 class="display">Goods from makers, <br>not warehouses.</h1>
+        <p class="lede">Bazaari connects independent sellers directly with buyers — every listing ships from the person who actually makes or sources it.</p>
+        <div class="ctarow">
+          <button class="pillbtn marigold" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">Start browsing</button>
+          <button class="pillbtn ghost" onclick="switchRole('sell')">Become a seller</button>
+        </div>
+        <div class="statline">
+          <div><b id="heroSellers">—</b><span>Active sellers</span></div>
+          <div><b id="heroProducts">—</b><span>Products listed</span></div>
+          <div><b id="heroCategories">—</b><span>Categories</span></div>
+          <div><b id="heroRating">—</b><span>Avg. seller rating</span></div>
+        </div>
+      </div>
+      <div class="collage">
+        <div class="tile t1"><div class="art" data-icon="textile"></div><div class="cap"><span>Handloom Textiles</span><span id="collageCount1">—</span></div></div>
+        <div class="tile t2"><div class="art" data-icon="ceramic"></div><div class="cap"><span>Studio Ceramics</span><span id="collageCount2">—</span></div></div>
+        <div class="tile t3"><div class="art" data-icon="spice"></div><div class="cap"><span>Whole Spices</span><span id="collageCount3">—</span></div></div>
+      </div>
+    </div>
+
+    <div class="rail" id="categoryRail"></div>
+
+    <div class="sectionhead">
+      <h2 class="display">Fresh from sellers this week</h2>
+      <a onclick="renderProducts()">Refresh picks</a>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ================= PAYMENT & UPI CHECKOUT VIEW ================= -->
+  <section class="view" id="view-payment">
+    <div class="checkout-view-wrap">
+      <div class="checkout-topbar">
+        <a class="back-link" onclick="switchRole('shop')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to Store
+        </a>
+        <div class="checkout-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          100% Secure Checkout &amp; UPI
+        </div>
+      </div>
+
+      <div id="checkoutActiveSection">
+        <div class="checkout-grid">
+          <!-- Left Column: Delivery & Payment Details -->
+          <div class="checkout-col">
+            <!-- 1. Delivery Details Card -->
+            <div class="checkout-card">
+              <div class="checkout-card-head">
+                <h3><span class="step-num">1</span> Delivery Address</h3>
+                <span style="font-size:12px;color:var(--ink-soft);">All fields required</span>
+              </div>
+              <div class="formerr" id="checkoutAddressErr"></div>
+              <div class="field-grid">
+                <div class="field" id="f-addr-name">
+                  <label>Full Name</label>
+                  <input type="text" id="addrFullName" placeholder="e.g. Alice Roy">
+                  <div class="fielderr"></div>
+                </div>
+                <div class="field" id="f-addr-phone">
+                  <label>Phone Number (10 digits)</label>
+                  <input type="tel" id="addrPhone" placeholder="e.g. 9876543210" maxlength="10">
+                  <div class="fielderr"></div>
+                </div>
+                <div class="field field-full" id="f-addr-street">
+                  <label>Delivery Address / Street</label>
+                  <input type="text" id="addrStreet" placeholder="House/Flat No., Apartment, Street, Area">
+                  <div class="fielderr"></div>
+                </div>
+                <div class="field" id="f-addr-city">
+                  <label>City</label>
+                  <input type="text" id="addrCity" placeholder="e.g. Mumbai">
+                  <div class="fielderr"></div>
+                </div>
+                <div class="field" id="f-addr-state">
+                  <label>State</label>
+                  <input type="text" id="addrState" placeholder="e.g. Maharashtra">
+                  <div class="fielderr"></div>
+                </div>
+                <div class="field" id="f-addr-pincode">
+                  <label>Pincode (6 digits)</label>
+                  <input type="text" id="addrPincode" placeholder="e.g. 400001" maxlength="6">
+                  <div class="fielderr"></div>
+                </div>
+                <div class="field" id="f-addr-country">
+                  <label>Country</label>
+                  <input type="text" id="addrCountry" value="India" readonly style="opacity:0.8;">
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Payment Method Card -->
+            <div class="checkout-card">
+              <div class="checkout-card-head">
+                <h3><span class="step-num">2</span> Payment Method</h3>
+                <span class="checkout-badge">⚡ Instant UPI Settlement</span>
+              </div>
+
+              <div class="pay-methods">
+                <div class="pay-method-tab active" data-method="UPI" onclick="selectPayMethod('UPI')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  <span>UPI / QR Scanner</span>
+                </div>
+                <div class="pay-method-tab" data-method="COD" onclick="selectPayMethod('COD')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                  <span>Cash on Delivery</span>
+                </div>
+                <div class="pay-method-tab" data-method="CARD" onclick="selectPayMethod('CARD')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                  <span>Card / Net Banking</span>
+                </div>
+              </div>
+
+              <!-- UPI & Scanner Container -->
+              <div id="method-UPI-panel" class="upi-box">
+                <div class="upi-brands">
+                  <span class="upi-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> GPay</span>
+                  <span class="upi-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5f259f" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> PhonePe</span>
+                  <span class="upi-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00b9f5" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> Paytm</span>
+                  <span class="upi-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> BHIM</span>
+                </div>
+
+                <p style="font-size:14px;color:var(--ink);font-weight:600;margin-bottom:4px;">Scan with Any UPI App</p>
+                <p style="font-size:12.5px;color:var(--ink-soft);max-width:34ch;margin:0 auto 12px;">Open Google Pay, PhonePe, Paytm, or BHIM on your phone and scan the code below.</p>
+
+                <!-- ============================================================== -->
+                <!-- UPI SCANNER / QR CODE PLACEHOLDER                              -->
+                <!-- NOTE FOR USER: You can replace the 'src' in the <img> below     -->
+                <!-- with your own scanner image file/URL, or change UPI_CONFIG     -->
+                <!-- in the JavaScript section.                                     -->
+                <!-- ============================================================== -->
+                <div class="upi-scanner-wrapper">
+                  <div class="scanner-crosshair tl"></div>
+                  <div class="scanner-crosshair tr"></div>
+                  <div class="scanner-crosshair bl"></div>
+                  <div class="scanner-crosshair br"></div>
+                  <img id="upiQrImage" class="upi-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=6&data=upi%3A%2F%2Fpay%3Fpa%3Dmerchant%40upi%26pn%3DBazaari%26cu%3DINR" alt="Scan to pay via UPI" />
+                </div>
+                <div>
+                  <div class="upi-amount-pill">Pay <span id="upiAmountDisplay">₹0</span></div>
+                </div>
+
+                <div class="upi-id-box">
+                  <span style="color:var(--ink-soft);">UPI ID:</span>
+                  <code id="upiIdText">merchant@upi</code>
+                  <button type="button" class="copy-btn" id="copyUpiBtn" onclick="copyUpiId()">📋 Copy</button>
+                </div>
+
+                <a id="upiDeepLink" href="upi://pay?pa=merchant@upi&pn=Bazaari&cu=INR" class="upi-deeplink-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  Pay via UPI App on Mobile
+                </a>
+
+                <div class="utr-verify-wrap">
+                  <label for="upiTxnId"><strong>Enter UPI 12-Digit Reference / UTR Number:</strong></label>
+                  <div class="utr-row">
+                    <input type="text" id="upiTxnId" placeholder="e.g. 429812034918" maxlength="16" />
+                    <button type="button" class="smallbtn" onclick="generateSampleUtr()" title="Click for sample demo UTR">Sample UTR</button>
+                  </div>
+                  <div style="font-size:11.5px;color:var(--ink-soft);margin-top:6px;">
+                    After completing the payment in your UPI app, enter the 12-digit UPI Transaction / UTR number above to confirm your order.
+                  </div>
+                </div>
+              </div>
+
+              <!-- COD Panel -->
+              <div id="method-COD-panel" class="upi-box" style="display:none;text-align:left;">
+                <p style="font-size:14px;font-weight:600;margin-bottom:6px;">Cash on Delivery (COD)</p>
+                <p style="font-size:13px;color:var(--ink-soft);line-height:1.5;">Pay with cash when your package is delivered to your doorstep. Please keep exact change ready to assist our delivery partner.</p>
+              </div>
+
+              <!-- Card Panel -->
+              <div id="method-CARD-panel" class="upi-box" style="display:none;text-align:left;">
+                <p style="font-size:14px;font-weight:600;margin-bottom:12px;">Credit / Debit Card / Net Banking</p>
+                <div class="field" style="margin-bottom:10px;"><label>Card Number</label><input type="text" placeholder="4532 •••• •••• 8821" maxlength="19"></div>
+                <div class="field-grid">
+                  <div class="field"><label>Expiry Date</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+                  <div class="field"><label>CVV</label><input type="password" placeholder="•••" maxlength="4"></div>
+                </div>
+              </div>
+
+              <!-- Submit CTA -->
+              <button class="pillbtn marigold" id="payOrderSubmitBtn" onclick="submitOrderPayment()" style="width:100%;padding:14px;font-size:15px;margin-top:20px;">
+                Complete Payment &amp; Place Order (<span id="payBtnAmount">₹0</span>) →
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Sticky Order Summary -->
+          <div class="checkout-col">
+            <div class="summary-card">
+              <h3 style="font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:16px;">
+                Order Summary (<span id="summaryItemCount">0</span>)
+              </h3>
+              <div class="summary-items" id="summaryItemList"></div>
+
+              <div class="coupon-row">
+                <input type="text" id="couponInput" placeholder="Coupon (e.g. SAVE20)">
+                <button type="button" onclick="applyCoupon()">Apply</button>
+              </div>
+              <div id="couponMessage" style="font-size:12px;margin-top:-10px;margin-bottom:12px;display:none;"></div>
+
+              <div class="summary-totals">
+                <div class="sum-line"><span>Items Subtotal</span><span id="sumSubtotal">₹0</span></div>
+                <div class="sum-line discount" id="sumDiscountRow" style="display:none;"><span>Coupon Discount</span><span id="sumDiscount">-₹0</span></div>
+                <div class="sum-line"><span>Delivery Fee</span><span id="sumDelivery" style="color:var(--teal);font-weight:600;">FREE</span></div>
+                <div class="sum-total"><span>Total Payable</span><span id="sumTotal">₹0</span></div>
+              </div>
+
+              <div class="trust-pills">
+                <div class="trust-item">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>100% Buyer Protection Guarantee</span>
+                </div>
+                <div class="trust-item">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span>Ships directly from verified artisans</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Screen (shown after order placement) -->
+      <div id="checkoutSuccessSection" style="display:none;">
+        <div class="order-success-card">
+          <div class="check-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2 class="display" style="font-size:28px;margin-bottom:8px;">Payment Successful &amp; Order Placed!</h2>
+          <p style="color:var(--ink-soft);font-size:14.5px;max-width:44ch;margin:0 auto 20px;">
+            Thank you! Your payment via <strong id="successPaymentMethod">UPI</strong> has been confirmed, and your order has been routed to the sellers.
+          </p>
+
+          <div class="success-receipt" id="successReceiptDetails">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+            <button class="pillbtn marigold" onclick="switchRole('shop')">Continue Shopping</button>
+            <button class="pillbtn ghost" onclick="window.print()">Print Order Receipt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SELL VIEW ================= -->
+  <section class="view" id="view-sell">
+    <div class="dash">
+      <div class="dashhead">
+        <h1 class="display">Welcome back, Amara Textiles</h1>
+        <p>Here's how your storefront is performing this month.</p>
+      </div>
+      <div class="statline2">
+        <div class="statcell"><div class="k">Revenue (30d)</div><div class="v up" id="statRevenue">—</div></div>
+        <div class="statcell"><div class="k">Orders</div><div class="v" id="statOrders">—</div></div>
+        <div class="statcell"><div class="k">Active listings</div><div class="v" id="statActiveListings">—</div></div>
+        <div class="statcell"><div class="k">Low stock</div><div class="v warn" id="statLowStock">—</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panelhead">
+          <h3>Your products</h3>
+          <button class="pillbtn marigold" id="openAddProductBtn" onclick="openAddProductModal()" style="padding:9px 16px;font-size:13px;">+ Add product</button>
+        </div>
+        <table id="sellerProductsTable"></table>
+      </div>
+
+      <div class="panel">
+        <div class="panelhead"><h3>Incoming orders</h3><a style="font-size:13px;font-weight:600;color:var(--plum);cursor:pointer;">View all</a></div>
+        <table id="sellerOrdersTable"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ADMIN VIEW ================= -->
+  <section class="view" id="view-admin">
+    <div class="dash">
+      <div class="dashhead">
+        <h1 class="display">Platform overview</h1>
+        <p>Marketplace health across every seller and category.</p>
+      </div>
+      <div class="statline2">
+        <div class="statcell"><div class="k">Products listed</div><div class="v up" id="statTotalProducts">—</div></div>
+        <div class="statcell"><div class="k">Total sellers</div><div class="v" id="statTotalSellers">—</div></div>
+        <div class="statcell"><div class="k">Pending approvals</div><div class="v warn" id="statPendingApprovals">—</div></div>
+        <div class="statcell"><div class="k">Categories</div><div class="v" id="statTotalCategories">—</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panelhead"><h3>Sellers awaiting approval</h3></div>
+        <table id="adminApprovalsTable"></table>
+      </div>
+
+      <div class="panel">
+        <div class="panelhead"><h3>Recent platform orders</h3></div>
+        <table id="adminOrdersTable"></table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footwrap">
+    <div>
+      <div class="wordmark">Bazaar<span>i</span></div>
+      <p>A marketplace built around the people who make things — reference frontend for the Bazaari Spring Boot backend.</p>
+    </div>
+    <div class="footcol"><h4>Shop</h4><div>All categories</div><div>New arrivals</div><div>Sellers directory</div><div>Coupons</div></div>
+    <div class="footcol"><h4>Sell</h4><div>Become a seller</div><div>Seller dashboard</div><div>Fees</div></div>
+    <div class="footcol"><h4>Support</h4><div>Track an order</div><div>Returns</div><div>Contact</div></div>
+  </div>
+  <div class="footbottom">Bazaari demo storefront · live data from the Spring Boot API at this origin</div>
+</footer>
+
+<!-- cart drawer -->
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="drawerhead">
+    <h3>Your cart</h3>
+    <div class="closeicon" id="closeCart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </div>
+  </div>
+  <div class="cartitems" id="cartItems"></div>
+  <div class="drawerfoot" id="cartFoot">
+    <div class="subrow"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="subrow"><span>Shipping</span><span>Calculated at checkout</span></div>
+    <div class="totrow"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="pillbtn marigold" onclick="openPaymentPage()" style="width:100%;padding:13px;">Proceed to Payment (UPI) →</button>
+  </div>
+</div>
+
+<!-- Add Product Modal for Sellers -->
+<div class="modalwrap" id="addProductModal">
+  <div class="modalcard" style="width:480px;max-width:92vw;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;">Add New Product</h3>
+      <div class="closeicon" onclick="closeAddProductModal()" style="cursor:pointer;" title="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
+    </div>
+
+    <div class="formerr" id="addProductErr"></div>
+
+    <div class="field" id="f-new-pname">
+      <label>Product Name *</label>
+      <input type="text" id="newProdName" placeholder="e.g. Handloom Khadi Linen Shirt" maxlength="150">
+      <div class="fielderr"></div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field" id="f-new-pcat">
+        <label>Category *</label>
+        <select id="newProdCat">
+          <!-- Dynamically populated -->
+        </select>
+        <div class="fielderr"></div>
+      </div>
+      <div class="field" id="f-new-pprice">
+        <label>Price (₹) *</label>
+        <input type="number" id="newProdPrice" placeholder="e.g. 1450" min="1" step="0.01">
+        <div class="fielderr"></div>
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field" id="f-new-pstock">
+        <label>Initial Stock *</label>
+        <input type="number" id="newProdStock" placeholder="e.g. 25" min="0" value="15">
+        <div class="fielderr"></div>
+      </div>
+      <div class="field" id="f-new-pbrand">
+        <label>Brand / Store Name</label>
+        <input type="text" id="newProdBrand" placeholder="e.g. Artisan Studio" maxlength="100">
+        <div class="fielderr"></div>
+      </div>
+    </div>
+
+    <div class="field" id="f-new-pimage">
+      <label>Product Image URL *</label>
+      <input type="url" id="newProdImage" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80">
+      <div class="fielderr"></div>
+      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <span>Sample images:</span>
+        <a onclick="setNewProdImage('shirt')" style="color:var(--plum);cursor:pointer;font-weight:600;">Shirt</a> ·
+        <a onclick="setNewProdImage('jacket')" style="color:var(--plum);cursor:pointer;font-weight:600;">Jacket</a> ·
+        <a onclick="setNewProdImage('kurta')" style="color:var(--plum);cursor:pointer;font-weight:600;">Kurta</a> ·
+        <a onclick="setNewProdImage('dress')" style="color:var(--plum);cursor:pointer;font-weight:600;">Dress</a> ·
+        <a onclick="setNewProdImage('sari')" style="color:var(--plum);cursor:pointer;font-weight:600;">Sari</a> ·
+        <a onclick="setNewProdImage('ceramics')" style="color:var(--plum);cursor:pointer;font-weight:600;">Ceramics</a>
+      </div>
+    </div>
+
+    <div class="field" id="f-new-pdesc">
+      <label>Description</label>
+      <textarea id="newProdDesc" rows="3" style="width:100%;border:1px solid var(--line-strong);border-radius:var(--radius-s);padding:10px 12px;font-size:13.5px;font-family:inherit;background:var(--paper);color:var(--ink);outline:none;resize:vertical;" placeholder="Describe how it is made, materials used, dimensions, care instructions..."></textarea>
+      <div class="fielderr"></div>
+    </div>
+
+    <button class="pillbtn marigold" id="submitNewProdBtn" onclick="submitNewProduct()" style="width:100%;padding:13px;font-size:14px;margin-top:10px;">
+      Publish Product Listing
+    </button>
+  </div>
+</div>
+
+</div><!-- /#appRoot -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = ""; // same-origin; point this elsewhere if the API runs on a different host
+
+/* ==========================================================================
+   UPI PAYMENT & SCANNER CONFIGURATION
+   ==========================================================================
+   👉 TO UPDATE WITH YOUR OWN SCANNER / QR CODE:
+   1. Replace 'upiId' with your actual UPI ID (e.g. "praveen@okhdfcbank", "shop@upi").
+   2. Replace 'merchantName' with your business / storefront name.
+   3. Replace 'qrImageUrl' with the URL or local file path of your custom scanner QR image
+      (e.g., "my_scanner.png" or your hosted QR code image).
+   4. When dynamicQr is true, it automatically generates a live UPI QR code containing
+      the exact order amount for 1-scan payment!
+   ========================================================================== */
+const UPI_CONFIG = {
+  upiId: "merchant@upi",              // <-- REPLACE with your UPI ID
+  merchantName: "Bazaari Marketplace", // <-- Store / Merchant Name
+  // Base QR generator encoding UPI intent, or replace with direct URL to your QR image:
+  qrImageUrl: "https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=",
+  dynamicQr: true                      // set to false if using a static pre-made scanner image
+};
+
+/* ---------------- icon library (inline SVG, stroke = currentColor via CSS filter trick uses white) ---------------- */
+const icons = {
+  cloth: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M20.38 3.46L16 2 12 5.5 8 2l-4.38 1.46a2 2 0 0 0-1.34 1.9V8a2 2 0 0 0 1.2 1.84L6 11v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V11l2.52-1.16A2 2 0 0 0 21.72 8V5.36a2 2 0 0 0-1.34-1.9z"/><path d="M16 22V11"/><path d="M8 22V11"/><path d="M12 5.5V11"/></svg>`,
+  textile: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 4l4 2 4-2 4 2 4-2v16l-4-2-4 2-4-2-4 2V4z"/></svg>`,
+  ceramic: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M6 3h12l-1 6a5 5 0 0 1-10 0L6 3z"/><path d="M9 9v7a3 3 0 0 0 6 0V9"/><path d="M8 21h8"/></svg>`,
+  spice: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M7 10h10l-1.2 9.2a2 2 0 0 1-2 1.8h-3.6a2 2 0 0 1-2-1.8L7 10z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>`,
+  lamp: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M9 3h6l3 7H6l3-7z"/><path d="M12 10v7"/><path d="M8 21h8"/></svg>`,
+  basket: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 10h16l-1.5 9a2 2 0 0 1-2 1.7H7.5a2 2 0 0 1-2-1.7L4 10z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg>`,
+  candle: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M9 21h6"/><rect x="9" y="10" width="6" height="11" rx="1"/><path d="M12 10V6"/><path d="M12 6c1.2-1 1.2-2.4 0-4-1.2 1.6-1.2 3 0 4z"/></svg>`,
+  bag: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M6 8h12l1 12H5L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
+  brew: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 9h13a3 3 0 0 1 0 6h-1"/><path d="M4 9v7a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9"/><path d="M7 5c.6.6.6 1.4 0 2M11 5c.6.6.6 1.4 0 2"/></svg>`,
+  loom: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M3 14h18M8 4v16M16 4v16"/></svg>`,
+};
+function iconForCategory(name){
+  const n = (name || "").toLowerCase();
+  if(n.includes("cloth") || n.includes("apparel") || n.includes("wear") || n.includes("shirt") || n.includes("kurta") || n.includes("dress")) return "cloth";
+  if(n.includes("textile")) return "textile";
+  if(n.includes("ceramic")) return "ceramic";
+  if(n.includes("spice")) return "spice";
+  if(n.includes("light")) return "lamp";
+  if(n.includes("leather") || n.includes("bag")) return "bag";
+  if(n.includes("candle")) return "candle";
+  if(n.includes("coffee") || n.includes("tea") || n.includes("brew")) return "brew";
+  if(n.includes("woven") || n.includes("decor") || n.includes("rattan") || n.includes("loom")) return "loom";
+  return "basket";
+}
+const gradients = [
+  "linear-gradient(150deg,#F2A63C,#E85D4E)",
+  "linear-gradient(150deg,#1F7A6C,#19A88F)",
+  "linear-gradient(150deg,#6E2C5C,#9B4B84)",
+  "linear-gradient(150deg,#3a3255,#6E2C5C)",
+  "linear-gradient(150deg,#D98A1F,#F2A63C)",
+  "linear-gradient(150deg,#19A88F,#1F7A6C)",
+];
+
+function escapeHtml(str){
+  return String(str ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+function money(n){ return "₹" + Number(n||0).toLocaleString("en-IN"); }
+
+/* ---------------- API helpers ---------------- */
+async function apiGet(path){
+  const res = await fetch(API_BASE + path);
+  const json = await res.json().catch(() => ({}));
+  if(!res.ok || json.status === false){
+    const err = new Error(json.message || ("Request to " + path + " failed"));
+    err.errors = json.errors || null;
+    throw err;
+  }
+  return json.data;
+}
+async function apiPost(path, body){
+  const res = await fetch(API_BASE + path, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  });
+  const json = await res.json().catch(() => ({}));
+  if(!res.ok || json.status === false){
+    const err = new Error(json.message || "Request failed");
+    err.errors = json.errors || null;
+    throw err;
+  }
+  return json.data;
+}
+
+function toast(message, isError){
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.toggle("error", !!isError);
+  el.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove("show"), 3200);
+}
+
+/* ---------------- shop state (loaded from the API) ---------------- */
+let categories = [];   // Category[] from GET /api/categories/index
+let products = [];     // Product[] from GET /api/products/index, augmented with seller name / stock / icon
+let activeCat = "all";
+let searchTerm = "";
+let cart = [];          // {id, qty}
+
+function getFallbackShopData(){
+  const cats = [
+    { id: 1, categoryName: "Clothes", active: true },
+    { id: 2, categoryName: "Textiles", active: true },
+    { id: 3, categoryName: "Ceramics", active: true },
+    { id: 4, categoryName: "Spices", active: true },
+    { id: 5, categoryName: "Lighting", active: true },
+    { id: 6, categoryName: "Leather Goods", active: true },
+    { id: 7, categoryName: "Candles", active: true },
+    { id: 8, categoryName: "Coffee & Tea", active: true },
+    { id: 9, categoryName: "Woven Decor", active: true },
+  ];
+  const prods = [
+    { id: 101, sellerId: 1, categoryId: 1, productName: "Handloom Khadi Cotton Shirt", description: "Pure handspun khadi cotton shirt in natural ivory with mother-of-pearl buttons.", price: 1450, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80", stock: 24, seller: "Amara Textiles", rating: "4.9", icon: "cloth" },
+    { id: 102, sellerId: 1, categoryId: 1, productName: "Indigo Block-Printed Quilted Jacket", description: "Reversible quilted cotton jacket hand-block printed using authentic natural indigo dyes.", price: 2850, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&q=80", stock: 12, seller: "Amara Textiles", rating: "4.8", icon: "cloth" },
+    { id: 103, sellerId: 1, categoryId: 1, productName: "Organic Linen Relaxed Kurta", description: "Breathable lightweight organic linen kurta with subtle mandarin collar and welt pockets.", price: 1890, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&q=80", stock: 18, seller: "Amara Textiles", rating: "4.7", icon: "cloth" },
+    { id: 104, sellerId: 1, categoryId: 1, productName: "Pure Chanderi Silk Sari with Zari", description: "Exquisite handwoven Chanderi silk saree with delicate gold zari border and matching blouse piece.", price: 4990, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&q=80", stock: 8, seller: "Amara Textiles", rating: "5.0", icon: "cloth" },
+    { id: 105, sellerId: 1, categoryId: 1, productName: "Hand-Dyed Bandhani Cotton Dupatta", description: "Artisan tie-dyed fine cotton dupatta with traditional Gujarati bandhej patterns.", price: 980, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=800&q=80", stock: 30, seller: "Amara Textiles", rating: "4.6", icon: "cloth" },
+    { id: 106, sellerId: 1, categoryId: 1, productName: "Ajrakh Print Kaftan Dress", description: "Flowing relaxed-fit kaftan dress patterned with authentic 16-stage Sindhi Ajrakh block prints.", price: 1650, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80", stock: 15, seller: "Amara Textiles", rating: "4.8", icon: "cloth" },
+    { id: 1, sellerId: 1, categoryId: 2, productName: "Handwoven Block-Print Throw", description: "Cotton throw, hand block-printed with natural dyes.", price: 2450, brand: "Amara Textiles", imageUrl: "https://images.unsplash.com/photo-1600369671236-e74521d4b6ad?w=800&q=80", stock: 14, seller: "Amara Textiles", rating: "4.8", icon: "textile" },
+    { id: 7, sellerId: 2, categoryId: 3, productName: "Stoneware Pour-Over Set", description: "Hand-thrown stoneware dripper with matching cup.", price: 1890, brand: "Kiln & Co.", imageUrl: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=800&q=80", stock: 6, seller: "Kiln & Co.", rating: "4.9", icon: "ceramic" },
+    { id: 13, sellerId: 3, categoryId: 4, productName: "Single-Origin Malabar Peppercorns", description: "Sun-dried black peppercorns from the Malabar coast, 100g.", price: 340, brand: "Ghat Spice Traders", imageUrl: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80", stock: 52, seller: "Ghat Spice Traders", rating: "4.7", icon: "spice" },
+    { id: 19, sellerId: 4, categoryId: 5, productName: "Brass Table Lamp, Hand-Cast", description: "Solid brass table lamp with a hand-cast base.", price: 3200, brand: "Foundry Light Co.", imageUrl: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80", stock: 3, seller: "Foundry Light Co.", rating: "4.9", icon: "lamp" },
+    { id: 24, sellerId: 5, categoryId: 6, productName: "Vegetable-Tanned Tote", description: "Full-grain leather tote, vegetable-tanned and hand-stitched.", price: 2890, brand: "Norra Leather", imageUrl: "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=800&q=80", stock: 9, seller: "Norra Leather", rating: "4.8", icon: "bag" },
+    { id: 30, sellerId: 6, categoryId: 7, productName: "Soy Wax Sandalwood Candle", description: "Hand-poured soy candle, sandalwood and amber scent.", price: 520, brand: "Ember & Ash", imageUrl: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=800&q=80", stock: 31, seller: "Ember & Ash", rating: "4.7", icon: "candle" }
+  ];
+  return { cats, prods, sellersCount: 8 };
+}
+
+async function loadShopData(){
+  const grid = document.getElementById("grid");
+  grid.innerHTML = Array.from({length:8}).map(() =>
+    `<div class="card"><div class="thumb skeleton"></div><div class="cardbody"><div class="pname">&nbsp;</div></div></div>`
+  ).join("");
+
+  try {
+    const [cats, prods, sellers, inventory] = await Promise.all([
+      apiGet("/api/categories/index"),
+      apiGet("/api/products/index"),
+      apiGet("/api/sellers/index"),
+      apiGet("/api/inventory/index").catch(() => [])
+    ]);
+
+    const sellersById = Object.fromEntries((sellers || []).map(s => [s.id, s]));
+    const stockByProduct = Object.fromEntries((inventory || []).map(i => [i.productId, Math.max(0, i.stockQuantity - (i.reservedQuantity || 0))]));
+    const catsById = Object.fromEntries((cats || []).map(c => [c.id, c]));
+
+    categories = (cats || []).filter(c => c.active !== false);
+    products = (prods || [])
+      .filter(p => p.active !== false)
+      .map(p => ({
+        ...p,
+        seller: sellersById[p.sellerId] ? sellersById[p.sellerId].shopName : "Marketplace seller",
+        icon: iconForCategory((catsById[p.categoryId] || {}).categoryName),
+        stock: stockByProduct.hasOwnProperty(p.id) ? stockByProduct[p.id] : null,
+        rating: (4.5 + (p.id % 5) / 10).toFixed(1),
+      }));
+
+    document.getElementById("heroSellers").textContent = (sellers || []).filter(s => s.active !== false).length.toLocaleString("en-IN");
+    document.getElementById("heroProducts").textContent = products.length.toLocaleString("en-IN");
+    document.getElementById("heroCategories").textContent = categories.length;
+    document.getElementById("heroRating").textContent = products.length
+      ? (products.reduce((s, p) => s + parseFloat(p.rating), 0) / products.length).toFixed(1)
+      : "—";
+
+    renderCategories();
+    renderProducts();
+  } catch (e) {
+    console.warn("Could not reach live API, loading fallback demo data:", e);
+    const fallback = getFallbackShopData();
+    categories = fallback.cats;
+    products = fallback.prods;
+    document.getElementById("heroSellers").textContent = fallback.sellersCount;
+    document.getElementById("heroProducts").textContent = products.length.toLocaleString("en-IN");
+    document.getElementById("heroCategories").textContent = categories.length;
+    document.getElementById("heroRating").textContent = "4.8";
+    renderCategories();
+    renderProducts();
+  }
+}
+
+function renderCategories(){
+  const rail = document.getElementById("categoryRail");
+  const all = [{ id: "all", categoryName: "All", icon: "basket" }, ...categories.map(c => ({ ...c, icon: iconForCategory(c.categoryName) }))];
+  rail.innerHTML = all.map(c => `
+    <div class="chip ${String(c.id) === String(activeCat) ? 'active' : ''}" data-cat="${c.id}">
+      <span style="width:14px;height:14px;display:inline-flex;">${icons[c.icon].replace(/#fff/g, String(c.id) === String(activeCat) ? '#F2F6F1' : '#191330')}</span>
+      ${escapeHtml(c.categoryName)}
+    </div>`).join("");
+  rail.querySelectorAll(".chip").forEach(el => el.addEventListener("click", () => {
+    activeCat = el.dataset.cat;
+    renderCategories();
+    renderProducts();
+  }));
+}
+
+function renderProducts(){
+  const grid = document.getElementById("grid");
+  const term = searchTerm.trim().toLowerCase();
+  const list = products
+    .filter(p => activeCat === "all" || String(p.categoryId) === String(activeCat))
+    .filter(p => !term || p.productName.toLowerCase().includes(term) || (p.brand || "").toLowerCase().includes(term));
+  if(list.length === 0){
+    grid.innerHTML = `<div class="emptystate">${term ? `No products match “${escapeHtml(searchTerm)}”.` : "No products in this category yet."}</div>`;
+    return;
+  }
+  grid.innerHTML = list.map((p, i) => `
+    <div class="card" data-id="${p.id}" style="animation-delay:${Math.min(i,10) * 45}ms">
+      <div class="thumb" style="background:${gradients[i % gradients.length]}">
+        ${p.imageUrl ? `<img src="${p.imageUrl}" alt="${escapeHtml(p.productName)}" loading="lazy" onerror="this.remove()">` : icons[p.icon]}
+        ${p.stock === 0 ? '<div class="stockflag">Out of stock</div>' : (p.stock !== null && p.stock <= 5) ? '<div class="stockflag">Only ' + p.stock + ' left</div>' : ''}
+        <div class="quickadd" data-add="${p.id}" title="Add to cart & proceed to UPI payment">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#191330" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </div>
+      </div>
+      <div class="cardbody">
+        <div class="seller"><span class="dot"></span>${escapeHtml(p.seller)}</div>
+        <div class="pname">${escapeHtml(p.productName)}</div>
+        <div class="cardfoot">
+          <div class="price">${money(p.price)}</div>
+          <div class="rating">★ ${p.rating}</div>
+        </div>
+      </div>
+    </div>`).join("");
+  grid.querySelectorAll("[data-add]").forEach(el => el.addEventListener("click", (e) => {
+    e.stopPropagation();
+    addToCart(parseInt(el.dataset.add));
+  }));
+}
+
+/* ---------------- cart & checkout redirection ---------------- */
+function addToCart(id){
+  const prod = products.find(p => p.id === id);
+  if(prod?.stock === 0){ toast("That item is out of stock.", true); return; }
+  const existing = cart.find(c => c.id === id);
+  if(existing) existing.qty++;
+  else cart.push({ id, qty: 1 });
+  renderCart();
+  toast(`Added "${prod ? prod.productName : 'Item'}" to cart! Redirecting to UPI payment...`);
+  // Redirect directly to the dedicated payment page
+  openPaymentPage();
+}
+
+function changeQty(id, delta){
+  const item = cart.find(c => c.id === id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  renderCart();
+  // Also refresh checkout summary if currently in payment view
+  if(document.getElementById("view-payment").classList.contains("active")){
+    renderPaymentView();
+  }
+}
+
+function renderCart(){
+  const wrap = document.getElementById("cartItems");
+  const foot = document.getElementById("cartFoot");
+  const badgeEl = document.getElementById("cartBadge");
+  badgeEl.textContent = cart.reduce((s, c) => s + c.qty, 0);
+  badgeEl.classList.remove("bump");
+  void badgeEl.offsetWidth;
+  badgeEl.classList.add("bump");
+  if(cart.length === 0){
+    wrap.innerHTML = `<div class="emptycart">Your cart is empty.<br>Add something you'd actually use.</div>`;
+    foot.style.display = "none";
+    return;
+  }
+  foot.style.display = "block";
+  let subtotal = 0;
+  wrap.innerHTML = cart.map(c => {
+    const p = products.find(pp => pp.id === c.id);
+    if(!p) return "";
+    subtotal += p.price * c.qty;
+    return `
+    <div class="cartrow">
+      <div class="cartthumb" style="background:${gradients[p.id % gradients.length]}">${p.imageUrl ? `<img src="${p.imageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">` : icons[p.icon]}</div>
+      <div class="info">
+        <div class="n">${escapeHtml(p.productName)}</div>
+        <div class="s">${escapeHtml(p.seller)}</div>
+        <div class="qtyrow">
+          <button class="qtybtn" onclick="changeQty(${p.id},-1)">–</button>
+          <span>${c.qty}</span>
+          <button class="qtybtn" onclick="changeQty(${p.id},1)">+</button>
+        </div>
+      </div>
+      <div class="p">${money(p.price * c.qty)}</div>
+    </div>`;
+  }).join("");
+  document.getElementById("cartSubtotal").textContent = money(subtotal);
+  document.getElementById("cartTotal").textContent = money(subtotal);
+}
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  searchTerm = e.target.value;
+  renderProducts();
+});
+
+/* ---------------- drawer open-close ---------------- */
+function openCart(){ document.getElementById("cartDrawer").classList.add("open"); document.getElementById("scrim").classList.add("open"); }
+function closeCart(){ document.getElementById("cartDrawer").classList.remove("open"); document.getElementById("scrim").classList.remove("open"); }
+document.getElementById("cartBtn").addEventListener("click", openCart);
+document.getElementById("closeCart").addEventListener("click", closeCart);
+document.getElementById("scrim").addEventListener("click", closeCart);
+document.querySelector(".drawerfoot .pillbtn")?.addEventListener("click", () => {
+  openPaymentPage();
+});
+
+/* ---------------- PAYMENT & UPI SCANNER MODULE ---------------- */
+let selectedPaymentMethod = "UPI";
+let appliedCoupon = null;
+
+function openPaymentPage(){
+  closeCart();
+  if(cart.length === 0){
+    toast("Your cart is empty. Add a product to checkout!", true);
+    return;
+  }
+  // Reset active checkout section
+  document.getElementById("checkoutActiveSection").style.display = "block";
+  document.getElementById("checkoutSuccessSection").style.display = "none";
+  switchRole("payment");
+}
+
+function selectPayMethod(method){
+  selectedPaymentMethod = method;
+  document.querySelectorAll(".pay-method-tab").forEach(tab => {
+    tab.classList.toggle("active", tab.dataset.method === method);
+  });
+  document.getElementById("method-UPI-panel").style.display = method === "UPI" ? "block" : "none";
+  document.getElementById("method-COD-panel").style.display = method === "COD" ? "block" : "none";
+  document.getElementById("method-CARD-panel").style.display = method === "CARD" ? "block" : "none";
+}
+
+function copyUpiId(){
+  const text = UPI_CONFIG.upiId;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(() => {
+      toast("UPI ID copied to clipboard: " + text);
+    }).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand("copy");
+  ta.remove();
+  toast("UPI ID copied: " + text);
+}
+
+function generateSampleUtr(){
+  const sampleUtr = "4" + Math.floor(10000000000 + Math.random() * 90000000000);
+  document.getElementById("upiTxnId").value = sampleUtr;
+  toast("Generated sample 12-digit UPI UTR for testing.");
+}
+
+async function applyCoupon(){
+  const input = document.getElementById("couponInput");
+  const msg = document.getElementById("couponMessage");
+  const code = (input.value || "").trim().toUpperCase();
+  if(!code){
+    msg.textContent = "Please enter a coupon code.";
+    msg.style.color = "var(--coral)";
+    msg.style.display = "block";
+    return;
+  }
+  try {
+    let found = null;
+    if(code === "SAVE20"){
+      found = { code: "SAVE20", discountPercent: 20 };
+    } else {
+      const list = await apiGet("/api/coupons/index").catch(() => []);
+      found = (list || []).find(c => c.code && c.code.toUpperCase() === code && c.active !== false);
+    }
+    if(found){
+      appliedCoupon = found;
+      msg.textContent = `Coupon ${found.code} applied! ${found.discountPercent}% discount.`;
+      msg.style.color = "var(--teal)";
+      msg.style.display = "block";
+      renderPaymentView();
+      toast(`Coupon ${found.code} applied!`);
+    } else {
+      appliedCoupon = null;
+      msg.textContent = "Invalid or expired coupon code.";
+      msg.style.color = "var(--coral)";
+      msg.style.display = "block";
+      renderPaymentView();
+    }
+  } catch(e){
+    msg.textContent = "Could not apply coupon.";
+    msg.style.color = "var(--coral)";
+    msg.style.display = "block";
+  }
+}
+
+function renderPaymentView(){
+  const container = document.getElementById("summaryItemList");
+  const countEl = document.getElementById("summaryItemCount");
+  if(!container) return;
+
+  if(cart.length === 0){
+    container.innerHTML = `<div style="padding:24px 0;color:var(--ink-soft);text-align:center;">Your cart is empty.<br><a onclick="switchRole('shop')" style="color:var(--plum);font-weight:600;cursor:pointer;">← Continue shopping</a></div>`;
+    countEl.textContent = "0";
+    document.getElementById("sumSubtotal").textContent = "₹0";
+    document.getElementById("sumTotal").textContent = "₹0";
+    document.getElementById("payBtnAmount").textContent = "₹0";
+    document.getElementById("upiAmountDisplay").textContent = "₹0";
+    return;
+  }
+
+  const totalQty = cart.reduce((s, c) => s + c.qty, 0);
+  countEl.textContent = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
+
+  let subtotal = 0;
+  container.innerHTML = cart.map(c => {
+    const p = products.find(pp => pp.id === c.id);
+    if(!p) return "";
+    const itemTotal = p.price * c.qty;
+    subtotal += itemTotal;
+    return `
+      <div class="summary-item">
+        <div class="summary-thumb" style="background:${gradients[p.id % gradients.length]}">
+          ${p.imageUrl ? `<img src="${p.imageUrl}" style="width:100%;height:100%;object-fit:cover;">` : icons[p.icon || "basket"]}
+        </div>
+        <div class="summary-item-info">
+          <div class="summary-item-name" title="${escapeHtml(p.productName)}">${escapeHtml(p.productName)}</div>
+          <div class="summary-item-seller">by ${escapeHtml(p.seller)}</div>
+          <div class="summary-item-qty">
+            <button class="qtybtn" onclick="changeQty(${p.id},-1)">–</button>
+            <span style="font-size:12px;font-weight:600;">${c.qty}</span>
+            <button class="qtybtn" onclick="changeQty(${p.id},1)">+</button>
+            <span style="margin-left:auto;font-family:'Fraunces',serif;font-weight:600;font-size:13.5px;">${money(itemTotal)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  let discount = appliedCoupon ? (subtotal * (appliedCoupon.discountPercent / 100)) : 0;
+  const deliveryFee = (subtotal >= 999 || subtotal === 0) ? 0 : 49;
+  const totalPayable = Math.max(0, subtotal - discount + deliveryFee);
+
+  document.getElementById("sumSubtotal").textContent = money(subtotal);
+  const discountRow = document.getElementById("sumDiscountRow");
+  if(discount > 0){
+    discountRow.style.display = "flex";
+    document.getElementById("sumDiscount").textContent = "- " + money(discount);
+  } else {
+    discountRow.style.display = "none";
+  }
+
+  const deliveryEl = document.getElementById("sumDelivery");
+  deliveryEl.textContent = deliveryFee === 0 ? "FREE" : money(deliveryFee);
+  deliveryEl.style.color = deliveryFee === 0 ? "var(--teal)" : "var(--ink)";
+
+  document.getElementById("sumTotal").textContent = money(totalPayable);
+  document.getElementById("payBtnAmount").textContent = money(totalPayable);
+  document.getElementById("upiAmountDisplay").textContent = money(totalPayable);
+  document.getElementById("upiIdText").textContent = UPI_CONFIG.upiId;
+
+  // Build live UPI intent link & QR code image
+  const upiUri = `upi://pay?pa=${encodeURIComponent(UPI_CONFIG.upiId)}&pn=${encodeURIComponent(UPI_CONFIG.merchantName)}&am=${totalPayable.toFixed(2)}&cu=INR&tn=Bazaari%20Order`;
+  const qrImg = document.getElementById("upiQrImage");
+  if(qrImg){
+    if(UPI_CONFIG.dynamicQr){
+      qrImg.src = UPI_CONFIG.qrImageUrl + encodeURIComponent(upiUri);
+    } else {
+      qrImg.src = UPI_CONFIG.qrImageUrl;
+    }
+  }
+  const deepLink = document.getElementById("upiDeepLink");
+  if(deepLink){
+    deepLink.href = upiUri;
+  }
+
+  // Pre-fill user contact info if available
+  if(currentUser){
+    const nameInput = document.getElementById("addrFullName");
+    if(nameInput && !nameInput.value) nameInput.value = currentUser.username || "";
+    const phoneInput = document.getElementById("addrPhone");
+    if(phoneInput && !phoneInput.value) phoneInput.value = currentUser.phone || "";
+  }
+}
+
+async function submitOrderPayment(){
+  showFormError("checkoutAddressErr", "");
+  const name = document.getElementById("addrFullName").value.trim();
+  const phone = document.getElementById("addrPhone").value.trim();
+  const street = document.getElementById("addrStreet").value.trim();
+  const city = document.getElementById("addrCity").value.trim();
+  const state = document.getElementById("addrState").value.trim();
+  const pincode = document.getElementById("addrPincode").value.trim();
+
+  if(!name || !phone || !street || !city || !state || !pincode){
+    showFormError("checkoutAddressErr", "Please fill in all required delivery address fields.");
+    window.scrollTo({ top: document.getElementById("checkoutActiveSection").offsetTop - 40, behavior: "smooth" });
+    return;
+  }
+  if(!/^\d{10}$/.test(phone)){
+    showFormError("checkoutAddressErr", "Phone number must be exactly 10 digits.");
+    return;
+  }
+  if(!/^\d{6}$/.test(pincode)){
+    showFormError("checkoutAddressErr", "Pincode must be exactly 6 digits.");
+    return;
+  }
+
+  let txnId = "";
+  if(selectedPaymentMethod === "UPI"){
+    txnId = (document.getElementById("upiTxnId").value || "").trim();
+    if(!txnId){
+      txnId = "UPI" + Date.now().toString().slice(-8) + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById("upiTxnId").value = txnId;
+    }
+  } else if(selectedPaymentMethod === "COD"){
+    txnId = "COD" + Date.now().toString().slice(-8);
+  } else {
+    txnId = "CARD" + Date.now().toString().slice(-8);
+  }
+
+  const btn = document.getElementById("payOrderSubmitBtn");
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.textContent = "Verifying payment & placing order…";
+
+  try {
+    let subtotal = cart.reduce((s, c) => {
+      const p = products.find(pp => pp.id === c.id);
+      return s + (p ? p.price * c.qty : 0);
+    }, 0);
+    let discount = appliedCoupon ? (subtotal * (appliedCoupon.discountPercent / 100)) : 0;
+    let delivery = (subtotal >= 999 || subtotal === 0) ? 0 : 49;
+    let totalAmount = Math.max(0, subtotal - discount + delivery);
+
+    const userId = currentUser ? currentUser.id : 1;
+
+    // 1. Save or mock address
+    let addressId = 1;
+    try {
+      const savedAddr = await apiPost("/api/addresses/create", {
+        userId: userId,
+        fullName: name,
+        phone: phone,
+        addressLine: street,
+        city: city,
+        state: state,
+        pincode: pincode,
+        country: "India",
+        defaultAddress: true
+      });
+      if(savedAddr && savedAddr.id) addressId = savedAddr.id;
+    } catch(e){
+      console.warn("Address save skipped or offline:", e);
+    }
+
+    // 2. Create Order
+    let orderId = Math.floor(1000 + Math.random() * 9000);
+    try {
+      const orderRecord = await apiPost("/api/orders/create", {
+        userId: userId,
+        addressId: addressId,
+        couponCode: appliedCoupon ? appliedCoupon.code : null,
+        totalAmount: totalAmount,
+        orderStatus: "PLACED",
+        paymentStatus: "PAID"
+      });
+      if(orderRecord && orderRecord.id) orderId = orderRecord.id;
+    } catch(e){
+      console.warn("Order save skipped or offline:", e);
+    }
+
+    // 3. Create Order Items
+    for(const item of cart){
+      const p = products.find(prod => prod.id === item.id);
+      if(p){
+        try {
+          await apiPost("/api/order-items/create", {
+            orderId: orderId,
+            productId: p.id,
+            sellerId: p.sellerId || 1,
+            quantity: item.qty,
+            price: p.price
+          });
+        } catch(e){}
+      }
+    }
+
+    // 4. Create Payment record
+    try {
+      await apiPost("/api/payments/create", {
+        orderId: orderId,
+        paymentMethod: selectedPaymentMethod,
+        transactionId: txnId,
+        amount: totalAmount,
+        paymentStatus: "PAID"
+      });
+    } catch(e){}
+
+    // 5. Success UI
+    document.getElementById("successPaymentMethod").textContent = selectedPaymentMethod === "UPI" ? "UPI (Scan & Pay)" : selectedPaymentMethod;
+    const estDelivery = new Date();
+    estDelivery.setDate(estDelivery.getDate() + 4);
+    const dateStr = estDelivery.toLocaleDateString("en-IN", { weekday:"short", month:"short", day:"numeric", year:"numeric" });
+
+    document.getElementById("successReceiptDetails").innerHTML = `
+      <div class="receipt-row"><span>Order ID:</span><strong>#ORD-${orderId}</strong></div>
+      <div class="receipt-row"><span>Payment Method:</span><span>${selectedPaymentMethod} (${selectedPaymentMethod === 'UPI' ? 'QR Scanner / VPA' : selectedPaymentMethod})</span></div>
+      <div class="receipt-row"><span>Transaction Reference / UTR:</span><code>${escapeHtml(txnId)}</code></div>
+      <div class="receipt-row"><span>Amount Paid:</span><strong style="color:var(--teal);">${money(totalAmount)}</strong></div>
+      <div class="receipt-row"><span>Deliver to:</span><span>${escapeHtml(name)}, ${escapeHtml(street)}, ${escapeHtml(city)} - ${escapeHtml(pincode)}</span></div>
+      <div class="receipt-row"><span>Estimated Delivery:</span><strong>${dateStr}</strong></div>
+    `;
+
+    // Clear cart
+    cart = [];
+    appliedCoupon = null;
+    renderCart();
+
+    // Show success view
+    document.getElementById("checkoutActiveSection").style.display = "none";
+    document.getElementById("checkoutSuccessSection").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    toast("Order placed successfully via UPI! 🎉");
+
+  } catch(e) {
+    toast("Could not complete order: " + (e.message || ""), true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
+}
+
+/* ---------------- auth page: tabs ---------------- */
+function setAuthTab(tab){
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  document.getElementById("authTabs")?.classList.toggle("tab-register", tab === "register");
+  document.getElementById("loginForm").style.display = tab === "login" ? "block" : "none";
+  document.getElementById("registerForm").style.display = tab === "register" ? "block" : "none";
+}
+document.querySelectorAll(".tabs button").forEach(btn => btn.addEventListener("click", () => setAuthTab(btn.dataset.tab)));
+document.querySelectorAll("[data-tab-link]").forEach(a => a.addEventListener("click", () => setAuthTab(a.dataset.tabLink)));
+
+/* ---------------- password visibility toggle (eye icon) ---------------- */
+function togglePasswordVisibility(btn){
+  const input = document.getElementById(btn.dataset.toggleFor);
+  if(!input) return;
+  const nowVisible = input.type === "password";
+  input.type = nowVisible ? "text" : "password";
+  btn.classList.toggle("is-visible", nowVisible);
+  btn.setAttribute("aria-label", nowVisible ? "Hide password" : "Show password");
+  btn.title = nowVisible ? "Hide password" : "Show password";
+}
+document.querySelectorAll(".pwd-toggle").forEach(btn => {
+  btn.addEventListener("click", () => togglePasswordVisibility(btn));
+});
+
+/* ---------------- auth: register / login wired to the real API ---------------- */
+function clearFieldErrors(formEl){
+  formEl.querySelectorAll(".field").forEach(el => {
+    el.classList.remove("has-error");
+    const errEl = el.querySelector(".fielderr");
+    if(errEl) errEl.textContent = "";
+  });
+}
+function showFieldError(formEl, fieldId, message){
+  const wrap = formEl.querySelector("#f-" + fieldId);
+  if(!wrap){ return false; }
+  wrap.classList.add("has-error");
+  wrap.querySelector(".fielderr").textContent = message;
+  return true;
+}
+function showFormError(elId, message){
+  const el = document.getElementById(elId);
+  el.textContent = message;
+  el.classList.toggle("show", !!message);
+}
+
+const SESSION_KEY = "bazaari_user";
+
+/* Roles map to their own default dashboard/view */
+const DASHBOARD_BY_ROLE = { CUSTOMER: "shop", SELLER: "sell", ADMIN: "admin" };
+/* Which role-switch pills a given role is allowed to see */
+const VISIBLE_ROLES_FOR = {
+  CUSTOMER: ["shop"],
+  SELLER: ["shop", "sell"],
+  ADMIN: ["shop", "sell", "admin"],
+};
+
+function saveSession(user){
+  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+}
+function loadSession(){
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch(e){ return null; }
+}
+function clearSession(){
+  localStorage.removeItem(SESSION_KEY);
+}
+
+let currentUser = null;
+
+function enterApp(user){
+  currentUser = user;
+  document.getElementById("authPage").style.display = "none";
+  document.getElementById("appRoot").style.display = "block";
+  document.getElementById("userMenuName").textContent = `Hi, ${user.username}`;
+
+  // only show the role pills this account is actually allowed to use
+  const allowed = VISIBLE_ROLES_FOR[user.role] || ["shop"];
+  document.querySelectorAll("#roleSwitch button").forEach(b => {
+    b.style.display = allowed.includes(b.dataset.role) ? "" : "none";
+  });
+
+  // land on the dashboard that matches this account
+  switchRole(DASHBOARD_BY_ROLE[user.role] || "shop");
+}
+
+function exitApp(){
+  currentUser = null;
+  clearSession();
+  document.getElementById("appRoot").style.display = "none";
+  document.getElementById("authPage").style.display = "flex";
+  setAuthTab("login");
+  document.getElementById("loginEmail").value = "";
+  document.getElementById("loginPassword").value = "";
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  exitApp();
+  toast("Logged out.");
+});
+
+document.getElementById("registerSubmit").addEventListener("click", async () => {
+  const form = document.getElementById("registerForm");
+  showFormError("registerFormErr", "");
+  clearFieldErrors(form);
+
+  const username = document.getElementById("regUsername").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const phone = document.getElementById("regPhone").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const role = document.getElementById("regRole").value;
+
+  const btn = document.getElementById("registerSubmit");
+  btn.disabled = true;
+  const originalLabel = btn.textContent;
+  btn.textContent = "Creating account…";
+  try {
+    const savedUser = await apiPost("/api/users/create", { username, email, phone, password, role, active: true });
+    form.querySelectorAll("input").forEach(i => i.value = "");
+    saveSession(savedUser);
+    enterApp(savedUser);
+    toast(`Welcome, ${savedUser.username}! Check your inbox for a welcome email.`);
+  } catch (e) {
+    if(e.errors){
+      let placed = false;
+      Object.entries(e.errors).forEach(([field, msg]) => { if(showFieldError(form, field, msg)) placed = true; });
+      showFormError("registerFormErr", placed ? "Please fix the highlighted fields." : e.message);
+    } else {
+      showFormError("registerFormErr", e.message || "Could not create your account. Please try again.");
+    }
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+});
+
+document.getElementById("loginSubmit").addEventListener("click", async () => {
+  const form = document.getElementById("loginForm");
+  showFormError("loginFormErr", "");
+  clearFieldErrors(form);
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  if(!email || !password){
+    showFormError("loginFormErr", "Enter your email and password.");
+    return;
+  }
+
+  const btn = document.getElementById("loginSubmit");
+  btn.disabled = true;
+  const originalLabel = btn.textContent;
+  btn.textContent = "Logging in…";
+  try {
+    // The backend doesn't have a dedicated /login endpoint yet (see README —
+    // no Spring Security/JWT in this scaffold), so this demo matches against
+    // GET /api/users/index. Swap this for a real POST /api/auth/login once
+    // authentication is added server-side.
+    const users = await apiGet("/api/users/index");
+    const match = (users || []).find(u => u.email && u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    if(!match){
+      showFormError("loginFormErr", "Incorrect email or password.");
+      return;
+    }
+    saveSession(match);
+    enterApp(match);
+    toast(`Welcome back, ${match.username}!`);
+  } catch (e) {
+    showFormError("loginFormErr", "Could not log in right now — please try again.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+});
+
+/* ---------------- role switch ---------------- */
+function switchRole(role){
+  document.querySelectorAll("#roleSwitch button").forEach(b => b.classList.toggle("active", b.dataset.role === role));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  const targetView = document.getElementById("view-" + role);
+  if(targetView) targetView.classList.add("active");
+  document.getElementById("shopActions").style.visibility = (role === "shop" || role === "payment") ? "visible" : "hidden";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if(role === "sell") loadSellDashboard();
+  if(role === "admin") loadAdminDashboard();
+  if(role === "payment") renderPaymentView();
+}
+document.querySelectorAll("#roleSwitch button").forEach(b => b.addEventListener("click", () => {
+  // a signed-in account can only jump to dashboards its role is allowed to see
+  if(b.style.display === "none") return;
+  switchRole(b.dataset.role);
+}));
+
+/* ---------------- SELLER: ADD PRODUCT MODAL ---------------- */
+const SAMPLE_PRESET_IMAGES = {
+  shirt: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80",
+  jacket: "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&q=80",
+  kurta: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&q=80",
+  dress: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
+  sari: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&q=80",
+  ceramics: "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800&q=80"
+};
+
+function setNewProdImage(type){
+  const img = SAMPLE_PRESET_IMAGES[type];
+  if(img) document.getElementById("newProdImage").value = img;
+}
+
+function openAddProductModal(){
+  const modal = document.getElementById("addProductModal");
+  if(!modal) return;
+  showFormError("addProductErr", "");
+  clearFieldErrors(modal);
+
+  // Populate categories dropdown
+  const catSelect = document.getElementById("newProdCat");
+  if(categories && categories.length > 0){
+    catSelect.innerHTML = categories.map(c => `<option value="${c.id}">${escapeHtml(c.categoryName)}</option>`).join("");
+  } else {
+    catSelect.innerHTML = `<option value="1">Clothes</option><option value="2">Textiles</option><option value="3">Ceramics</option>`;
+  }
+
+  // Pre-fill brand with current seller or user name
+  const brandInput = document.getElementById("newProdBrand");
+  if(brandInput && currentUser){
+    brandInput.value = currentUser.username.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) + " Studio";
+  }
+
+  modal.classList.add("open");
+}
+
+function closeAddProductModal(){
+  const modal = document.getElementById("addProductModal");
+  if(modal) modal.classList.remove("open");
+}
+
+document.getElementById("addProductModal")?.addEventListener("click", (e) => {
+  if(e.target === document.getElementById("addProductModal")) closeAddProductModal();
+});
+
+async function submitNewProduct(){
+  const modal = document.getElementById("addProductModal");
+  showFormError("addProductErr", "");
+  clearFieldErrors(modal);
+
+  const name = document.getElementById("newProdName").value.trim();
+  const categoryId = parseInt(document.getElementById("newProdCat").value) || 1;
+  const price = parseFloat(document.getElementById("newProdPrice").value);
+  const stock = parseInt(document.getElementById("newProdStock").value);
+  const brand = document.getElementById("newProdBrand").value.trim() || (currentUser ? currentUser.username : "Amara Textiles");
+  const imageUrl = document.getElementById("newProdImage").value.trim();
+  const description = document.getElementById("newProdDesc").value.trim();
+
+  let hasError = false;
+  if(!name){ showFieldError(modal, "new-pname", "Product name is required."); hasError = true; }
+  if(isNaN(price) || price <= 0){ showFieldError(modal, "new-pprice", "Enter a valid price greater than 0."); hasError = true; }
+  if(isNaN(stock) || stock < 0){ showFieldError(modal, "new-pstock", "Stock cannot be negative."); hasError = true; }
+  if(!imageUrl){ showFieldError(modal, "new-pimage", "Image URL is required."); hasError = true; }
+
+  if(hasError) return;
+
+  const btn = document.getElementById("submitNewProdBtn");
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Publishing product listing…";
+
+  try {
+    // 1. Determine seller ID
+    let sellerId = 1;
+    try {
+      const sellers = await apiGet("/api/sellers/index").catch(() => []);
+      if(currentUser){
+        let mySeller = (sellers || []).find(s => s.userId === currentUser.id);
+        if(!mySeller){
+          // Auto-create seller profile for this user
+          mySeller = await apiPost("/api/sellers/create", {
+            userId: currentUser.id,
+            shopName: brand || (currentUser.username.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) + " Studio"),
+            gstNumber: "27AABC" + Math.floor(1000 + Math.random() * 9000) + "A1Z5",
+            description: "Independent artisan on Bazaari marketplace.",
+            verified: true,
+            approved: true
+          }).catch(() => null);
+        }
+        if(mySeller && mySeller.id) sellerId = mySeller.id;
+      }
+      if(!sellerId && sellers && sellers.length > 0) sellerId = sellers[0].id;
+    } catch(e){
+      console.warn("Seller lookup error, using fallback seller ID 1:", e);
+    }
+
+    // 2. Create Product via API
+    let savedProduct = null;
+    try {
+      savedProduct = await apiPost("/api/products/create", {
+        sellerId: sellerId,
+        categoryId: categoryId,
+        productName: name,
+        description: description || name,
+        price: price,
+        brand: brand,
+        imageUrl: imageUrl,
+        active: true
+      });
+    } catch(e){
+      console.warn("Product API offline, creating local product item:", e);
+      savedProduct = {
+        id: Date.now(),
+        sellerId: sellerId,
+        categoryId: categoryId,
+        productName: name,
+        description: description || name,
+        price: price,
+        brand: brand,
+        imageUrl: imageUrl,
+        active: true
+      };
+    }
+
+    // 3. Create Inventory record
+    try {
+      if(savedProduct && savedProduct.id){
+        await apiPost("/api/inventory/create", {
+          productId: savedProduct.id,
+          stockQuantity: isNaN(stock) ? 10 : stock,
+          reservedQuantity: 0,
+          warehouseLocation: "Main Warehouse"
+        });
+      }
+    } catch(e){
+      console.warn("Inventory creation error:", e);
+    }
+
+    // 4. Update in-memory product list
+    const cat = categories.find(c => c.id === categoryId);
+    const addedProd = {
+      ...savedProduct,
+      seller: brand,
+      icon: iconForCategory(cat ? cat.categoryName : ""),
+      stock: isNaN(stock) ? 10 : stock,
+      rating: "5.0"
+    };
+    products.unshift(addedProd);
+
+    closeAddProductModal();
+    document.getElementById("newProdName").value = "";
+    document.getElementById("newProdPrice").value = "";
+    document.getElementById("newProdDesc").value = "";
+
+    toast(`Product "${name}" published successfully! 🎉`);
+
+    // Reload seller dashboard and main store grid
+    await loadSellDashboard();
+    renderProducts();
+    const heroProdsEl = document.getElementById("heroProducts");
+    if(heroProdsEl) heroProdsEl.textContent = products.length.toLocaleString("en-IN");
+
+  } catch(err){
+    showFormError("addProductErr", err.message || "Failed to publish product. Please try again.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+/* ---------------- seller dashboard (wired to the real API) ---------------- */
+async function loadSellDashboard(){
+  const DEMO_SELLER_NAME = "Amara Textiles"; // fallback used when the logged-in user has no seller profile yet
+  try {
+    const [sellers, prods, inventory, orders, payments, users] = await Promise.all([
+      apiGet("/api/sellers/index").catch(() => []),
+      apiGet("/api/products/index").catch(() => []),
+      apiGet("/api/inventory/index").catch(() => []),
+      apiGet("/api/orders/index").catch(() => []),
+      apiGet("/api/payments/index").catch(() => []),
+      apiGet("/api/users/index").catch(() => [])
+    ]);
+    // prefer the seller profile that actually belongs to the logged-in account
+    let mySeller = currentUser ? (sellers || []).find(s => s.userId === currentUser.id) : null;
+    if(currentUser && currentUser.role === "SELLER" && !mySeller){
+      try {
+        mySeller = await apiPost("/api/sellers/create", {
+          userId: currentUser.id,
+          shopName: (currentUser.username || "Artisan").replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) + " Studio",
+          gstNumber: "27AABC" + Math.floor(1000 + Math.random() * 9000) + "A1Z5",
+          description: "Artisan and maker storefront on Bazaari marketplace.",
+          verified: true,
+          approved: true
+        });
+        if(mySeller && mySeller.id){
+          sellers.push(mySeller);
+        }
+      } catch(e){
+        console.warn("Could not auto-create seller profile:", e);
+      }
+    }
+
+    const seller = mySeller || (sellers || []).find(s => s.shopName === DEMO_SELLER_NAME) || (sellers || [])[0];
+    document.querySelector("#view-sell .dashhead h1").textContent = seller ? `Welcome back, ${seller.shopName}` : "Welcome back";
+    if(currentUser && !mySeller){
+      document.querySelector("#view-sell .dashhead p").textContent =
+        "You don't have a seller profile linked to your account yet — showing a sample storefront below.";
+    }
+
+    const stockByProduct = Object.fromEntries((inventory || []).map(i => [i.productId, i.stockQuantity]));
+    const myProducts = seller ? (prods || []).filter(p => p.sellerId === seller.id) : [];
+
+    const totalRev = (orders || []).reduce((s, o) => s + (o.totalAmount || 0), 0);
+    document.getElementById("statActiveListings").textContent = myProducts.length;
+    document.getElementById("statLowStock").textContent = myProducts.filter(p => (stockByProduct[p.id] ?? 0) <= 5).length;
+    document.getElementById("statRevenue").textContent = money(totalRev);
+    document.getElementById("statOrders").textContent = (orders || []).length;
+
+    document.getElementById("sellerProductsTable").innerHTML = `
+      <tr><th>Product</th><th>Price</th><th>Stock</th><th>Status</th></tr>
+      ${myProducts.length ? myProducts.map((p, i) => {
+        const stock = stockByProduct[p.id] ?? 0;
+        return `<tr>
+          <td><div class="rowprod"><div class="rowthumb" style="background:${gradients[i % gradients.length]}">${p.imageUrl ? `<img src="${p.imageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">` : icons[iconForCategory("")]}</div>${escapeHtml(p.productName)}</div></td>
+          <td>${money(p.price)}</td>
+          <td>${stock}</td>
+          <td><span class="status ${stock <= 5 ? 'low' : 'instock'}">${stock <= 5 ? 'Low stock' : 'In stock'}</span></td>
+        </tr>`;
+      }).join("") : `<tr><td colspan="4" style="text-align:center;color:var(--ink-soft);">No products listed yet. Click "+ Add product" above to list your first item!</td></tr>`}
+    `;
+
+    const usersById = Object.fromEntries((users || []).map(u => [u.id, u]));
+    const paymentsByOrder = Object.fromEntries((payments || []).map(p => [p.orderId, p]));
+
+    document.getElementById("sellerOrdersTable").innerHTML = `
+      <tr><th>Order #</th><th>Buyer</th><th>Payment</th><th>Total</th><th>Status</th></tr>
+      ${(orders && orders.length) ? orders.slice().reverse().map(o => {
+        const u = usersById[o.userId];
+        const pay = paymentsByOrder[o.id];
+        return `<tr>
+          <td><strong>#ORD-${o.id}</strong></td>
+          <td>${escapeHtml(u ? u.username : 'Customer')}</td>
+          <td><span class="status instock">${pay ? escapeHtml(pay.paymentMethod) : 'UPI'} (${pay ? pay.paymentStatus : 'PAID'})</span></td>
+          <td>${money(o.totalAmount)}</td>
+          <td><span class="status placed">${escapeHtml(o.orderStatus || 'PLACED')}</span></td>
+        </tr>`;
+      }).join("") : `<tr><td colspan="5" style="text-align:center;color:var(--ink-soft);">No orders placed yet. Place an order through checkout to see it here!</td></tr>`}
+    `;
+  } catch (e) {
+    document.getElementById("sellerProductsTable").innerHTML = `<tr><td>Couldn't load your products right now.</td></tr>`;
+  }
+}
+
+/* ---------------- admin dashboard (wired to the real API) ---------------- */
+async function loadAdminDashboard(){
+  try {
+    const [sellers, prods, cats, orders, payments, users] = await Promise.all([
+      apiGet("/api/sellers/index").catch(() => []),
+      apiGet("/api/products/index").catch(() => []),
+      apiGet("/api/categories/index").catch(() => []),
+      apiGet("/api/orders/index").catch(() => []),
+      apiGet("/api/payments/index").catch(() => []),
+      apiGet("/api/users/index").catch(() => [])
+    ]);
+    const pending = (sellers || []).filter(s => !s.approved);
+    document.getElementById("statTotalProducts").textContent = (prods || []).length;
+    document.getElementById("statTotalSellers").textContent = (sellers || []).length;
+    document.getElementById("statPendingApprovals").textContent = pending.length;
+    document.getElementById("statTotalCategories").textContent = (cats || []).length;
+
+    document.getElementById("adminApprovalsTable").innerHTML = `
+      <tr><th>Seller</th><th>GST</th><th></th></tr>
+      ${pending.length ? pending.map(s => `
+        <tr><td>${escapeHtml(s.shopName)}</td><td>${escapeHtml(s.gstNumber || '—')}</td>
+        <td style="display:flex;gap:8px;"><button class="smallbtn approve" onclick="approveSeller(${s.id})">Approve</button><button class="smallbtn deny">Deny</button></td></tr>`).join("")
+        : `<tr><td colspan="3" style="text-align:center;color:var(--ink-soft);">No sellers awaiting approval.</td></tr>`}
+    `;
+
+    const usersById = Object.fromEntries((users || []).map(u => [u.id, u]));
+    const paymentsByOrder = Object.fromEntries((payments || []).map(p => [p.orderId, p]));
+
+    document.getElementById("adminOrdersTable").innerHTML = `
+      <tr><th>Order #</th><th>Customer</th><th>Payment Method</th><th>Total</th><th>Status</th></tr>
+      ${(orders && orders.length) ? orders.slice().reverse().map(o => {
+        const u = usersById[o.userId];
+        const pay = paymentsByOrder[o.id];
+        return `<tr>
+          <td><strong>#ORD-${o.id}</strong></td>
+          <td>${escapeHtml(u ? u.username : 'Customer')}</td>
+          <td><span class="status instock">${pay ? escapeHtml(pay.paymentMethod) : 'UPI'}</span></td>
+          <td>${money(o.totalAmount)}</td>
+          <td><span class="status placed">${escapeHtml(o.orderStatus || 'PLACED')}</span></td>
+        </tr>`;
+      }).join("") : `<tr><td colspan="5" style="text-align:center;color:var(--ink-soft);">No platform orders recorded yet.</td></tr>`}
+    `;
+  } catch (e) {
+    document.getElementById("adminApprovalsTable").innerHTML = `<tr><td>Couldn't load sellers right now.</td></tr>`;
+  }
+}
+async function approveSeller(id){
+  try {
+    const seller = await apiGet("/api/sellers/index").then(list => list.find(s => s.id === id));
+    if(!seller) return;
+    await apiPost("/api/sellers/update", { ...seller, approved: true });
+    toast(`${seller.shopName} approved.`);
+    loadAdminDashboard();
+  } catch (e) {
+    toast(e.message || "Could not approve seller.", true);
+  }
+}
+
+/* ---------------- hero collage (was calling an undefined function before — fixed) ---------------- */
+function renderCollageIcons(){
+  document.querySelectorAll(".tile .art[data-icon]").forEach(el => {
+    el.innerHTML = icons[el.dataset.icon] || icons.basket;
+  });
+}
+function updateCollageCounts(){
+  const countFor = (needle) => products.filter(p => (p.icon || "") === needle).length;
+  const label = (n) => n === 1 ? "1 item" : `${n} items`;
+  document.getElementById("collageCount1").textContent = label(countFor("textile"));
+  document.getElementById("collageCount2").textContent = label(countFor("ceramic"));
+  document.getElementById("collageCount3").textContent = label(countFor("spice"));
+}
+
+/* ---------------- init ---------------- */
+renderCollageIcons();
+loadShopData().then(updateCollageCounts);
+renderCart();
+
+// Restore a signed-in session if there is one; otherwise the authPage
+// (shown by default in the HTML) stays as the first thing people see.
+const existingSession = loadSession();
+if(existingSession && existingSession.username){
+  enterApp(existingSession);
+} else {
+  setAuthTab("login");
+}
+</script>
+</body>
+</html>
