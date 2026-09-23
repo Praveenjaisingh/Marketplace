@@ -85,7 +85,7 @@ POST /api/wishlist/create      { "userId": 1, "productId": 1 }
 Edit `src/main/resources/application.properties`:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/marketplace_db
+spring.datasource.url=jdbc:postgresql://localhost:3306/marketplace_db
 spring.datasource.username=root
 spring.datasource.password=your_password
 ```

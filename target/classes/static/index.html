@@ -59,7 +59,6 @@ img{max-width:100%;display:block;}
 a{color:inherit;}
 button{font-family:inherit;}
 
-/* ---------- utility bar ---------- */
 .utilitybar{
   background:var(--ink);
   color:var(--paper);
@@ -81,7 +80,6 @@ button{font-family:inherit;}
 .role-switch button.active{background:var(--marigold);color:var(--ink);font-weight:600;}
 .utilitybar .tagline{color:rgba(242,246,241,0.55);}
 
-/* ---------- nav ---------- */
 .topnav{
   position:sticky; top:37px; z-index:39;
   background:var(--paper-raised);
@@ -130,7 +128,6 @@ button{font-family:inherit;}
 .pillbtn.ghost:hover{border-color:var(--ink);background:transparent; box-shadow:0 8px 18px rgba(25,19,48,0.12);}
 .pillbtn:disabled{opacity:.65; cursor:default; transform:none !important; box-shadow:none !important;}
 
-/* ---------- shared motion tokens ---------- */
 @keyframes fadeInUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
 @keyframes popIn{0%{opacity:0; transform:scale(.92);} 60%{opacity:1; transform:scale(1.015);} 100%{opacity:1; transform:scale(1);}}
@@ -143,7 +140,6 @@ button{font-family:inherit;}
 
 main{max-width:1180px;margin:0 auto;padding:0 24px;}
 
-/* ---------- SHOP: hero ---------- */
 .hero{
   display:grid; grid-template-columns: 1.1fr 0.9fr; gap:56px; align-items:center;
   padding:64px 0 48px;
@@ -172,7 +168,6 @@ main{max-width:1180px;margin:0 auto;padding:0 24px;}
 .tile.t2{width:200px; height:200px; top:60px; right:10px; --r:5deg; background:linear-gradient(150deg,#1F7A6C,#19A88F); animation-delay:.18s;}
 .tile.t3{width:190px; height:190px; bottom:0; left:110px; --r:3deg; background:linear-gradient(150deg,#6E2C5C,#9B4B84); animation-delay:.3s;}
 
-/* category rail */
 .rail{display:flex; gap:10px; overflow-x:auto; padding:6px 0 28px; scrollbar-width:none;}
 .rail::-webkit-scrollbar{display:none;}
 .chip{
@@ -184,12 +179,10 @@ main{max-width:1180px;margin:0 auto;padding:0 24px;}
 .chip.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
 .chip:not(.active):hover{border-color:var(--marigold-deep);}
 
-/* section headings */
 .sectionhead{display:flex; align-items:baseline; justify-content:space-between; margin:8px 0 20px;}
 .sectionhead h2{font-size:26px; font-weight:500;}
 .sectionhead a{font-size:14px; font-weight:600; color:var(--plum); cursor:pointer;}
 
-/* product grid - masonry feel via row-span on featured card */
 .grid{
   display:grid; grid-template-columns:repeat(4,1fr); gap:18px; padding-bottom:56px;
 }
@@ -228,7 +221,6 @@ main{max-width:1180px;margin:0 auto;padding:0 24px;}
 .price{font-family:"Fraunces",serif; font-size:19px; font-weight:600;}
 .rating{font-size:12px; color:var(--ink-soft); display:flex; align-items:center; gap:3px;}
 
-/* ---------- cart drawer ---------- */
 .scrim{position:fixed; inset:0; background:rgba(25,19,48,0.45); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:60;}
 .scrim.open{opacity:1; pointer-events:auto;}
 .drawer{
@@ -257,7 +249,6 @@ main{max-width:1180px;margin:0 auto;padding:0 24px;}
 .totrow{display:flex; justify-content:space-between; font-family:"Fraunces",serif; font-size:20px; font-weight:600; margin:10px 0 16px;}
 .emptycart{text-align:center; padding:60px 20px; color:var(--ink-soft); font-size:14px;}
 
-/* ---------- auth modal ---------- */
 .modalwrap{position:fixed; inset:0; z-index:70; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .2s ease;}
 .modalwrap.open{opacity:1; pointer-events:auto;}
 .modalcard{
@@ -289,7 +280,6 @@ main{max-width:1180px;margin:0 auto;padding:0 24px;}
 .field input:focus,.field select:focus{border-color:var(--marigold-deep); box-shadow:0 0 0 3px rgba(242,166,60,0.18); background:var(--paper-raised);}
 .modalcard .pillbtn{width:100%; margin-top:6px; padding:12px;}
 
-/* ---------- SELL / ADMIN dashboards ---------- */
 .dash{padding:40px 0 64px;}
 .dashhead{margin-bottom:28px;}
 .dashhead h1{font-size:30px; font-weight:500;}
@@ -328,7 +318,6 @@ tr:last-child td{border-bottom:none;}
 .view{display:none;}
 .view.active{display:block;}
 
-/* footer */
 footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 .footwrap{max-width:1180px; margin:0 auto; padding:48px 24px 32px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;}
 .footwrap .wordmark{color:var(--paper);}
@@ -348,7 +337,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
   .footwrap{grid-template-columns:1fr 1fr;}
 }
 
-/* ---------- mobile fixes ---------- */
 @media (max-width:640px){
   .utilitybar{padding:8px 14px; gap:8px;}
   .utilitybar .tagline{display:none;}
@@ -378,12 +366,10 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
   table{display:block; overflow-x:auto; white-space:nowrap;}
 }
 
-/* quick-add: reveal on touch (hover never fires reliably on phones) */
 @media (hover:none){
   .quickadd{opacity:1; transform:scale(1);}
 }
 
-/* ---------- data/state helpers ---------- */
 .thumb img{width:100%; height:100%; object-fit:cover;}
 .skeleton{background:linear-gradient(90deg, var(--line) 25%, var(--paper) 37%, var(--line) 63%); background-size:400% 100%; animation:shimmer 1.4s ease infinite;}
 @keyframes shimmer{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
@@ -407,7 +393,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 .order-success-card{animation:fadeInUp .45s cubic-bezier(.2,.8,.3,1) both;}
 .emptystate{padding:48px 20px; text-align:center; color:var(--ink-soft); font-size:14px;}
 
-/* ---------- dedicated login/register page ---------- */
 .authpage{
   position:relative; overflow:hidden;
   min-height:100vh; display:flex; align-items:center; justify-content:center;
@@ -458,7 +443,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
   .authcard{padding:28px 22px;}
 }
 
-/* password field with eye toggle */
 .pwd-wrap{position:relative;}
 .pwd-wrap input{padding-right:42px !important;}
 .pwd-toggle{
@@ -472,7 +456,7 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 .pwd-toggle .eye-off{display:none;}
 .pwd-toggle.is-visible .eye-on{display:none;}
 .pwd-toggle.is-visible .eye-off{display:block;}
-/* ---------- PAYMENT & UPI SCANNER MODULE ---------- */
+
 .checkout-view-wrap{padding:24px 0 60px;}
 .checkout-topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--line);}
 .back-link{display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--plum); cursor:pointer; text-decoration:none;}
@@ -488,14 +472,12 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 .field-full{grid-column:1 / -1;}
 
-/* payment methods */
 .pay-methods{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px;}
 .pay-method-tab{border:1px solid var(--line); background:var(--paper); border-radius:var(--radius-s); padding:12px 10px; text-align:center; cursor:pointer; font-size:13px; font-weight:600; color:var(--ink-soft); transition:all .15s ease; display:flex; flex-direction:column; align-items:center; gap:6px;}
 .pay-method-tab:hover{border-color:var(--marigold-deep);}
 .pay-method-tab.active{border-color:var(--marigold-deep); background:rgba(242,166,60,0.08); color:var(--ink); box-shadow:0 0 0 1px var(--marigold-deep);}
 .pay-method-tab svg{width:22px; height:22px;}
 
-/* UPI Scanner Box */
 .upi-box{background:var(--paper); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:24px; text-align:center;}
 .upi-brands{display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
 .upi-pill{background:#fff; border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:11px; font-weight:700; color:#1a1a1a; display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(0,0,0,0.04);}
@@ -522,7 +504,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 .utr-row input{flex:1; border:1px solid var(--line-strong); border-radius:var(--radius-s); padding:9px 12px; font-size:14px; font-family:monospace; background:var(--paper); color:var(--ink); outline:none;}
 .utr-row input:focus{border-color:var(--marigold-deep);}
 
-/* Order summary sticky card */
 .summary-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m); padding:24px; position:sticky; top:110px;}
 .summary-items{max-height:280px; overflow-y:auto; margin-bottom:16px; padding-right:4px;}
 .summary-item{display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--line);}
@@ -546,7 +527,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 .trust-pills{display:flex; flex-direction:column; gap:8px; margin-top:20px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-soft);}
 .trust-item{display:flex; align-items:center; gap:8px;}
 
-/* Success confirmation view */
 .order-success-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius-m); padding:48px 32px; max-width:620px; margin:32px auto; text-align:center; box-shadow:var(--shadow-pop);}
 .check-circle{width:72px; height:72px; border-radius:50%; background:rgba(31,122,108,0.12); color:var(--teal); display:inline-flex; align-items:center; justify-content:center; margin-bottom:20px;}
 .check-circle svg{width:36px; height:36px;}
@@ -569,7 +549,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 </head>
 <body>
 
-<!-- ================= LOGIN / REGISTER (first screen) ================= -->
 <div class="authpage" id="authPage">
   <div class="auth-motif"></div>
   <div class="authcard">
@@ -661,7 +640,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 
 <main>
 
-  <!-- ================= SHOP VIEW ================= -->
   <section class="view active" id="view-shop">
     <div class="hero">
       <div>
@@ -694,7 +672,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
     <div class="grid" id="grid"></div>
   </section>
 
-  <!-- ================= PAYMENT & UPI CHECKOUT VIEW ================= -->
   <section class="view" id="view-payment">
     <div class="checkout-view-wrap">
       <div class="checkout-topbar">
@@ -710,9 +687,7 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 
       <div id="checkoutActiveSection">
         <div class="checkout-grid">
-          <!-- Left Column: Delivery & Payment Details -->
           <div class="checkout-col">
-            <!-- 1. Delivery Details Card -->
             <div class="checkout-card">
               <div class="checkout-card-head">
                 <h3><span class="step-num">1</span> Delivery Address</h3>
@@ -757,7 +732,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
               </div>
             </div>
 
-            <!-- 2. Payment Method Card -->
             <div class="checkout-card">
               <div class="checkout-card-head">
                 <h3><span class="step-num">2</span> Payment Method</h3>
@@ -779,7 +753,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
                 </div>
               </div>
 
-              <!-- UPI & Scanner Container -->
               <div id="method-UPI-panel" class="upi-box">
                 <div class="upi-brands">
                   <span class="upi-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> GPay</span>
@@ -791,12 +764,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
                 <p style="font-size:14px;color:var(--ink);font-weight:600;margin-bottom:4px;">Scan with Any UPI App</p>
                 <p style="font-size:12.5px;color:var(--ink-soft);max-width:34ch;margin:0 auto 12px;">Open Google Pay, PhonePe, Paytm, or BHIM on your phone and scan the code below.</p>
 
-                <!-- ============================================================== -->
-                <!-- UPI SCANNER / QR CODE PLACEHOLDER                              -->
-                <!-- NOTE FOR USER: You can replace the 'src' in the <img> below     -->
-                <!-- with your own scanner image file/URL, or change UPI_CONFIG     -->
-                <!-- in the JavaScript section.                                     -->
-                <!-- ============================================================== -->
                 <div class="upi-scanner-wrapper">
                   <div class="scanner-crosshair tl"></div>
                   <div class="scanner-crosshair tr"></div>
@@ -831,13 +798,11 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
                 </div>
               </div>
 
-              <!-- COD Panel -->
               <div id="method-COD-panel" class="upi-box" style="display:none;text-align:left;">
                 <p style="font-size:14px;font-weight:600;margin-bottom:6px;">Cash on Delivery (COD)</p>
                 <p style="font-size:13px;color:var(--ink-soft);line-height:1.5;">Pay with cash when your package is delivered to your doorstep. Please keep exact change ready to assist our delivery partner.</p>
               </div>
 
-              <!-- Card Panel -->
               <div id="method-CARD-panel" class="upi-box" style="display:none;text-align:left;">
                 <p style="font-size:14px;font-weight:600;margin-bottom:12px;">Credit / Debit Card / Net Banking</p>
                 <div class="field" style="margin-bottom:10px;"><label>Card Number</label><input type="text" placeholder="4532 •••• •••• 8821" maxlength="19"></div>
@@ -847,14 +812,12 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
                 </div>
               </div>
 
-              <!-- Submit CTA -->
               <button class="pillbtn marigold" id="payOrderSubmitBtn" onclick="submitOrderPayment()" style="width:100%;padding:14px;font-size:15px;margin-top:20px;">
                 Complete Payment &amp; Place Order (<span id="payBtnAmount">₹0</span>) →
               </button>
             </div>
           </div>
 
-          <!-- Right Column: Sticky Order Summary -->
           <div class="checkout-col">
             <div class="summary-card">
               <h3 style="font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:16px;">
@@ -890,7 +853,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
         </div>
       </div>
 
-      <!-- Success Screen (shown after order placement) -->
       <div id="checkoutSuccessSection" style="display:none;">
         <div class="order-success-card">
           <div class="check-circle">
@@ -902,7 +864,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
           </p>
 
           <div class="success-receipt" id="successReceiptDetails">
-            <!-- Populated dynamically -->
           </div>
 
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
@@ -914,7 +875,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
     </div>
   </section>
 
-  <!-- ================= SELL VIEW ================= -->
   <section class="view" id="view-sell">
     <div class="dash">
       <div class="dashhead">
@@ -943,7 +903,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
     </div>
   </section>
 
-  <!-- ================= ADMIN VIEW ================= -->
   <section class="view" id="view-admin">
     <div class="dash">
       <div class="dashhead">
@@ -984,7 +943,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
   <div class="footbottom">Bazaari demo storefront · live data from the Spring Boot API at this origin</div>
 </footer>
 
-<!-- cart drawer -->
 <div class="scrim" id="scrim"></div>
 <div class="drawer" id="cartDrawer">
   <div class="drawerhead">
@@ -1002,7 +960,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
   </div>
 </div>
 
-<!-- Add Product Modal for Sellers -->
 <div class="modalwrap" id="addProductModal">
   <div class="modalcard" style="width:480px;max-width:92vw;max-height:90vh;overflow-y:auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
@@ -1024,7 +981,6 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
       <div class="field" id="f-new-pcat">
         <label>Category *</label>
         <select id="newProdCat">
-          <!-- Dynamically populated -->
         </select>
         <div class="fielderr"></div>
       </div>
@@ -1075,33 +1031,36 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
   </div>
 </div>
 
-</div><!-- /#appRoot -->
+</div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE = ""; // same-origin; point this elsewhere if the API runs on a different host
+const API_BASE = "";
 
-/* ==========================================================================
-   UPI PAYMENT & SCANNER CONFIGURATION
-   ==========================================================================
-   👉 TO UPDATE WITH YOUR OWN SCANNER / QR CODE:
-   1. Replace 'upiId' with your actual UPI ID (e.g. "praveen@okhdfcbank", "shop@upi").
-   2. Replace 'merchantName' with your business / storefront name.
-   3. Replace 'qrImageUrl' with the URL or local file path of your custom scanner QR image
-      (e.g., "my_scanner.png" or your hosted QR code image).
-   4. When dynamicQr is true, it automatically generates a live UPI QR code containing
-      the exact order amount for 1-scan payment!
-   ========================================================================== */
+
 const UPI_CONFIG = {
-  upiId: "merchant@upi",              // <-- REPLACE with your UPI ID
-  merchantName: "Bazaari Marketplace", // <-- Store / Merchant Name
-  // Base QR generator encoding UPI intent, or replace with direct URL to your QR image:
+  upiId: "dpp469926@okaxis",              
+  merchantName: "Bazaari Marketplace",    
   qrImageUrl: "https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=",
-  dynamicQr: true                      // set to false if using a static pre-made scanner image
+  dynamicQr: true
 };
 
-/* ---------------- icon library (inline SVG, stroke = currentColor via CSS filter trick uses white) ---------------- */
+function getUpiVpa(){
+  const raw = (UPI_CONFIG.upiId || "").trim();
+  if(raw.toLowerCase().startsWith("upi://")){
+    try {
+      const params = new URL(raw).searchParams;
+      const pa = params.get("pa");
+      if(pa) return pa;
+    } catch(e){
+      const match = raw.match(/[?&]pa=([^&]+)/i);
+      if(match) return decodeURIComponent(match[1]);
+    }
+  }
+  return raw;
+}
+
 const icons = {
   cloth: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M20.38 3.46L16 2 12 5.5 8 2l-4.38 1.46a2 2 0 0 0-1.34 1.9V8a2 2 0 0 0 1.2 1.84L6 11v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V11l2.52-1.16A2 2 0 0 0 21.72 8V5.36a2 2 0 0 0-1.34-1.9z"/><path d="M16 22V11"/><path d="M8 22V11"/><path d="M12 5.5V11"/></svg>`,
   textile: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 4l4 2 4-2 4 2 4-2v16l-4-2-4 2-4-2-4 2V4z"/></svg>`,
@@ -1176,12 +1135,11 @@ function toast(message, isError){
   toast._t = setTimeout(() => el.classList.remove("show"), 3200);
 }
 
-/* ---------------- shop state (loaded from the API) ---------------- */
-let categories = [];   // Category[] from GET /api/categories/index
-let products = [];     // Product[] from GET /api/products/index, augmented with seller name / stock / icon
+let categories = [];   
+let products = [];     
 let activeCat = "all";
 let searchTerm = "";
-let cart = [];          // {id, qty}
+let cart = [];          
 
 function getFallbackShopData(){
   const cats = [
@@ -1313,7 +1271,6 @@ function renderProducts(){
   }));
 }
 
-/* ---------------- cart & checkout redirection ---------------- */
 function addToCart(id){
   const prod = products.find(p => p.id === id);
   if(prod?.stock === 0){ toast("That item is out of stock.", true); return; }
@@ -1322,7 +1279,6 @@ function addToCart(id){
   else cart.push({ id, qty: 1 });
   renderCart();
   toast(`Added "${prod ? prod.productName : 'Item'}" to cart! Redirecting to UPI payment...`);
-  // Redirect directly to the dedicated payment page
   openPaymentPage();
 }
 
@@ -1332,7 +1288,6 @@ function changeQty(id, delta){
   item.qty += delta;
   if(item.qty <= 0) cart = cart.filter(c => c.id !== id);
   renderCart();
-  // Also refresh checkout summary if currently in payment view
   if(document.getElementById("view-payment").classList.contains("active")){
     renderPaymentView();
   }
@@ -1381,7 +1336,6 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
   renderProducts();
 });
 
-/* ---------------- drawer open-close ---------------- */
 function openCart(){ document.getElementById("cartDrawer").classList.add("open"); document.getElementById("scrim").classList.add("open"); }
 function closeCart(){ document.getElementById("cartDrawer").classList.remove("open"); document.getElementById("scrim").classList.remove("open"); }
 document.getElementById("cartBtn").addEventListener("click", openCart);
@@ -1391,7 +1345,6 @@ document.querySelector(".drawerfoot .pillbtn")?.addEventListener("click", () => 
   openPaymentPage();
 });
 
-/* ---------------- PAYMENT & UPI SCANNER MODULE ---------------- */
 let selectedPaymentMethod = "UPI";
 let appliedCoupon = null;
 
@@ -1401,7 +1354,6 @@ function openPaymentPage(){
     toast("Your cart is empty. Add a product to checkout!", true);
     return;
   }
-  // Reset active checkout section
   document.getElementById("checkoutActiveSection").style.display = "block";
   document.getElementById("checkoutSuccessSection").style.display = "none";
   switchRole("payment");
@@ -1418,7 +1370,7 @@ function selectPayMethod(method){
 }
 
 function copyUpiId(){
-  const text = UPI_CONFIG.upiId;
+  const text = getUpiVpa();
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(() => {
       toast("UPI ID copied to clipboard: " + text);
@@ -1546,24 +1498,29 @@ function renderPaymentView(){
   document.getElementById("sumTotal").textContent = money(totalPayable);
   document.getElementById("payBtnAmount").textContent = money(totalPayable);
   document.getElementById("upiAmountDisplay").textContent = money(totalPayable);
-  document.getElementById("upiIdText").textContent = UPI_CONFIG.upiId;
+  document.getElementById("upiIdText").textContent = getUpiVpa();
 
-  // Build live UPI intent link & QR code image
-  const upiUri = `upi://pay?pa=${encodeURIComponent(UPI_CONFIG.upiId)}&pn=${encodeURIComponent(UPI_CONFIG.merchantName)}&am=${totalPayable.toFixed(2)}&cu=INR&tn=Bazaari%20Order`;
+  const vpa = getUpiVpa();
+  const upiUri = `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(UPI_CONFIG.merchantName)}&am=${totalPayable.toFixed(2)}&cu=INR&tn=Bazaari%20Order`;
   const qrImg = document.getElementById("upiQrImage");
   if(qrImg){
-    if(UPI_CONFIG.dynamicQr){
+    if(UPI_CONFIG.dynamicQr && /^https?:\/\//i.test(UPI_CONFIG.qrImageUrl)){
       qrImg.src = UPI_CONFIG.qrImageUrl + encodeURIComponent(upiUri);
-    } else {
+    } else if(UPI_CONFIG.qrImageUrl){
       qrImg.src = UPI_CONFIG.qrImageUrl;
+    } else {
+      qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=" + encodeURIComponent(upiUri);
     }
+    qrImg.onerror = function(){
+      this.onerror = null;
+      this.src = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=" + encodeURIComponent(upiUri);
+    };
   }
   const deepLink = document.getElementById("upiDeepLink");
   if(deepLink){
     deepLink.href = upiUri;
   }
 
-  // Pre-fill user contact info if available
   if(currentUser){
     const nameInput = document.getElementById("addrFullName");
     if(nameInput && !nameInput.value) nameInput.value = currentUser.username || "";
@@ -1624,7 +1581,6 @@ async function submitOrderPayment(){
 
     const userId = currentUser ? currentUser.id : 1;
 
-    // 1. Save or mock address
     let addressId = 1;
     try {
       const savedAddr = await apiPost("/api/addresses/create", {
@@ -1643,7 +1599,6 @@ async function submitOrderPayment(){
       console.warn("Address save skipped or offline:", e);
     }
 
-    // 2. Create Order
     let orderId = Math.floor(1000 + Math.random() * 9000);
     try {
       const orderRecord = await apiPost("/api/orders/create", {
@@ -1659,7 +1614,6 @@ async function submitOrderPayment(){
       console.warn("Order save skipped or offline:", e);
     }
 
-    // 3. Create Order Items
     for(const item of cart){
       const p = products.find(prod => prod.id === item.id);
       if(p){
@@ -1675,7 +1629,6 @@ async function submitOrderPayment(){
       }
     }
 
-    // 4. Create Payment record
     try {
       await apiPost("/api/payments/create", {
         orderId: orderId,
@@ -1686,7 +1639,6 @@ async function submitOrderPayment(){
       });
     } catch(e){}
 
-    // 5. Success UI
     document.getElementById("successPaymentMethod").textContent = selectedPaymentMethod === "UPI" ? "UPI (Scan & Pay)" : selectedPaymentMethod;
     const estDelivery = new Date();
     estDelivery.setDate(estDelivery.getDate() + 4);
@@ -1701,12 +1653,10 @@ async function submitOrderPayment(){
       <div class="receipt-row"><span>Estimated Delivery:</span><strong>${dateStr}</strong></div>
     `;
 
-    // Clear cart
     cart = [];
     appliedCoupon = null;
     renderCart();
 
-    // Show success view
     document.getElementById("checkoutActiveSection").style.display = "none";
     document.getElementById("checkoutSuccessSection").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1720,7 +1670,6 @@ async function submitOrderPayment(){
   }
 }
 
-/* ---------------- auth page: tabs ---------------- */
 function setAuthTab(tab){
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
   document.getElementById("authTabs")?.classList.toggle("tab-register", tab === "register");
@@ -1730,7 +1679,6 @@ function setAuthTab(tab){
 document.querySelectorAll(".tabs button").forEach(btn => btn.addEventListener("click", () => setAuthTab(btn.dataset.tab)));
 document.querySelectorAll("[data-tab-link]").forEach(a => a.addEventListener("click", () => setAuthTab(a.dataset.tabLink)));
 
-/* ---------------- password visibility toggle (eye icon) ---------------- */
 function togglePasswordVisibility(btn){
   const input = document.getElementById(btn.dataset.toggleFor);
   if(!input) return;
@@ -1744,7 +1692,6 @@ document.querySelectorAll(".pwd-toggle").forEach(btn => {
   btn.addEventListener("click", () => togglePasswordVisibility(btn));
 });
 
-/* ---------------- auth: register / login wired to the real API ---------------- */
 function clearFieldErrors(formEl){
   formEl.querySelectorAll(".field").forEach(el => {
     el.classList.remove("has-error");
@@ -1767,9 +1714,7 @@ function showFormError(elId, message){
 
 const SESSION_KEY = "bazaari_user";
 
-/* Roles map to their own default dashboard/view */
 const DASHBOARD_BY_ROLE = { CUSTOMER: "shop", SELLER: "sell", ADMIN: "admin" };
-/* Which role-switch pills a given role is allowed to see */
 const VISIBLE_ROLES_FOR = {
   CUSTOMER: ["shop"],
   SELLER: ["shop", "sell"],
@@ -1794,13 +1739,11 @@ function enterApp(user){
   document.getElementById("appRoot").style.display = "block";
   document.getElementById("userMenuName").textContent = `Hi, ${user.username}`;
 
-  // only show the role pills this account is actually allowed to use
   const allowed = VISIBLE_ROLES_FOR[user.role] || ["shop"];
   document.querySelectorAll("#roleSwitch button").forEach(b => {
     b.style.display = allowed.includes(b.dataset.role) ? "" : "none";
   });
 
-  // land on the dashboard that matches this account
   switchRole(DASHBOARD_BY_ROLE[user.role] || "shop");
 }
 
@@ -1871,10 +1814,6 @@ document.getElementById("loginSubmit").addEventListener("click", async () => {
   const originalLabel = btn.textContent;
   btn.textContent = "Logging in…";
   try {
-    // The backend doesn't have a dedicated /login endpoint yet (see README —
-    // no Spring Security/JWT in this scaffold), so this demo matches against
-    // GET /api/users/index. Swap this for a real POST /api/auth/login once
-    // authentication is added server-side.
     const users = await apiGet("/api/users/index");
     const match = (users || []).find(u => u.email && u.email.toLowerCase() === email.toLowerCase() && u.password === password);
     if(!match){
@@ -1892,7 +1831,6 @@ document.getElementById("loginSubmit").addEventListener("click", async () => {
   }
 });
 
-/* ---------------- role switch ---------------- */
 function switchRole(role){
   document.querySelectorAll("#roleSwitch button").forEach(b => b.classList.toggle("active", b.dataset.role === role));
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
@@ -1905,12 +1843,10 @@ function switchRole(role){
   if(role === "payment") renderPaymentView();
 }
 document.querySelectorAll("#roleSwitch button").forEach(b => b.addEventListener("click", () => {
-  // a signed-in account can only jump to dashboards its role is allowed to see
   if(b.style.display === "none") return;
   switchRole(b.dataset.role);
 }));
 
-/* ---------------- SELLER: ADD PRODUCT MODAL ---------------- */
 const SAMPLE_PRESET_IMAGES = {
   shirt: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80",
   jacket: "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&q=80",
@@ -1931,7 +1867,6 @@ function openAddProductModal(){
   showFormError("addProductErr", "");
   clearFieldErrors(modal);
 
-  // Populate categories dropdown
   const catSelect = document.getElementById("newProdCat");
   if(categories && categories.length > 0){
     catSelect.innerHTML = categories.map(c => `<option value="${c.id}">${escapeHtml(c.categoryName)}</option>`).join("");
@@ -1939,7 +1874,6 @@ function openAddProductModal(){
     catSelect.innerHTML = `<option value="1">Clothes</option><option value="2">Textiles</option><option value="3">Ceramics</option>`;
   }
 
-  // Pre-fill brand with current seller or user name
   const brandInput = document.getElementById("newProdBrand");
   if(brandInput && currentUser){
     brandInput.value = currentUser.username.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) + " Studio";
@@ -1984,14 +1918,12 @@ async function submitNewProduct(){
   btn.textContent = "Publishing product listing…";
 
   try {
-    // 1. Determine seller ID
     let sellerId = 1;
     try {
       const sellers = await apiGet("/api/sellers/index").catch(() => []);
       if(currentUser){
         let mySeller = (sellers || []).find(s => s.userId === currentUser.id);
         if(!mySeller){
-          // Auto-create seller profile for this user
           mySeller = await apiPost("/api/sellers/create", {
             userId: currentUser.id,
             shopName: brand || (currentUser.username.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) + " Studio"),
@@ -2008,7 +1940,6 @@ async function submitNewProduct(){
       console.warn("Seller lookup error, using fallback seller ID 1:", e);
     }
 
-    // 2. Create Product via API
     let savedProduct = null;
     try {
       savedProduct = await apiPost("/api/products/create", {
@@ -2036,7 +1967,6 @@ async function submitNewProduct(){
       };
     }
 
-    // 3. Create Inventory record
     try {
       if(savedProduct && savedProduct.id){
         await apiPost("/api/inventory/create", {
@@ -2050,7 +1980,6 @@ async function submitNewProduct(){
       console.warn("Inventory creation error:", e);
     }
 
-    // 4. Update in-memory product list
     const cat = categories.find(c => c.id === categoryId);
     const addedProd = {
       ...savedProduct,
@@ -2068,7 +1997,6 @@ async function submitNewProduct(){
 
     toast(`Product "${name}" published successfully! 🎉`);
 
-    // Reload seller dashboard and main store grid
     await loadSellDashboard();
     renderProducts();
     const heroProdsEl = document.getElementById("heroProducts");
@@ -2082,9 +2010,8 @@ async function submitNewProduct(){
   }
 }
 
-/* ---------------- seller dashboard (wired to the real API) ---------------- */
 async function loadSellDashboard(){
-  const DEMO_SELLER_NAME = "Amara Textiles"; // fallback used when the logged-in user has no seller profile yet
+  const DEMO_SELLER_NAME = "Amara Textiles"; 
   try {
     const [sellers, prods, inventory, orders, payments, users] = await Promise.all([
       apiGet("/api/sellers/index").catch(() => []),
@@ -2094,7 +2021,7 @@ async function loadSellDashboard(){
       apiGet("/api/payments/index").catch(() => []),
       apiGet("/api/users/index").catch(() => [])
     ]);
-    // prefer the seller profile that actually belongs to the logged-in account
+
     let mySeller = currentUser ? (sellers || []).find(s => s.userId === currentUser.id) : null;
     if(currentUser && currentUser.role === "SELLER" && !mySeller){
       try {
@@ -2165,7 +2092,6 @@ async function loadSellDashboard(){
   }
 }
 
-/* ---------------- admin dashboard (wired to the real API) ---------------- */
 async function loadAdminDashboard(){
   try {
     const [sellers, prods, cats, orders, payments, users] = await Promise.all([
@@ -2223,7 +2149,6 @@ async function approveSeller(id){
   }
 }
 
-/* ---------------- hero collage (was calling an undefined function before — fixed) ---------------- */
 function renderCollageIcons(){
   document.querySelectorAll(".tile .art[data-icon]").forEach(el => {
     el.innerHTML = icons[el.dataset.icon] || icons.basket;
@@ -2237,13 +2162,10 @@ function updateCollageCounts(){
   document.getElementById("collageCount3").textContent = label(countFor("spice"));
 }
 
-/* ---------------- init ---------------- */
 renderCollageIcons();
 loadShopData().then(updateCollageCounts);
 renderCart();
 
-// Restore a signed-in session if there is one; otherwise the authPage
-// (shown by default in the HTML) stays as the first thing people see.
 const existingSession = loadSession();
 if(existingSession && existingSession.username){
   enterApp(existingSession);

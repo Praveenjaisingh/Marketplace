@@ -22,7 +22,7 @@ arrays with `fetch()` calls against the endpoints in the root README, e.g.:
 async function loadProducts(){
   const res = await fetch("http://localhost:8080/api/products/index");
   const { data } = await res.json();
-  return data; // maps to the PRODUCTS shape: productName, price, brand, etc.
+  return data; 
 }
 ```
 
