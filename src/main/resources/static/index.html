@@ -318,13 +318,13 @@ tr:last-child td{border-bottom:none;}
 .view{display:none;}
 .view.active{display:block;}
 
-footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
+footer{background:var(--ink); color:var(--paper); margin-top:20px;}
 .footwrap{max-width:1180px; margin:0 auto; padding:48px 24px 32px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;}
 .footwrap .wordmark{color:var(--paper);}
-.footwrap p{font-size:13.5px; margin-top:12px; line-height:1.6; color:rgba(242,246,241,0.55); max-width:32ch;}
+.footwrap p{font-size:13.5px; margin-top:12px; line-height:1.6; color:var(--paper); opacity:0.55; max-width:32ch;}
 .footcol h4{font-size:13px; margin-bottom:14px; font-weight:600; color:var(--paper);}
-.footcol div{font-size:13.5px; padding:5px 0; color:rgba(242,246,241,0.65);}
-.footbottom{border-top:1px solid rgba(242,246,241,0.12); text-align:center; padding:18px; font-size:12.5px; color:rgba(242,246,241,0.45);}
+.footcol div{font-size:13.5px; padding:5px 0; color:var(--paper); opacity:0.65;}
+.footbottom{border-top:1px solid var(--paper); text-align:center; padding:18px; font-size:12.5px; color:var(--paper); opacity:0.45;}
 
 @media (max-width:860px){
   .hero{grid-template-columns:1fr; gap:36px; padding-top:36px;}
@@ -618,7 +618,7 @@ footer{background:var(--ink); color:rgba(242,246,241,0.8); margin-top:20px;}
 </div>
 
 <div class="topnav">
-  <div class="wordmark">Bazaar<span>i</span></div>
+  <div class="wordmark" onclick="switchRole('shop')" style="cursor:pointer;" title="Return to home">Bazaar<span>i</span></div>
   <div class="searchpill">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
     <input type="text" id="searchInput" placeholder="Search for handloom textiles, ceramics, spices…">
